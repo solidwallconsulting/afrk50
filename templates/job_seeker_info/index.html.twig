@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobSeekerInfo index{% endblock %}
+
+{% block body %}
+    <h1>JobSeekerInfo index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>AreasOfExperience</th>
+                <th>YearsOfExperience</th>
+                <th>AreasOfIntrests</th>
+                <th>ResumeFILE</th>
+                <th>MoreInfo</th>
+                <th>SocialLink</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for job_seeker_info in job_seeker_infos %}
+            <tr>
+                <td>{{ job_seeker_info.id }}</td>
+                <td>{{ job_seeker_info.areasOfExperience }}</td>
+                <td>{{ job_seeker_info.yearsOfExperience }}</td>
+                <td>{{ job_seeker_info.areasOfIntrests ? job_seeker_info.areasOfIntrests|join(', ') : '' }}</td>
+                <td>{{ job_seeker_info.resumeFILE }}</td>
+                <td>{{ job_seeker_info.moreInfo }}</td>
+                <td>{{ job_seeker_info.socialLink }}</td>
+                <td>
+                    <a href="{{ path('job_seeker_info_show', {'id': job_seeker_info.id}) }}">show</a>
+                    <a href="{{ path('job_seeker_info_edit', {'id': job_seeker_info.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('job_seeker_info_new') }}">Create new</a>
+{% endblock %}

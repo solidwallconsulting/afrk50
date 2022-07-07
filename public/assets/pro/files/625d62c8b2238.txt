@@ -1,0 +1,1442 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.3
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1
+-- Généré le : mer. 13 avr. 2022 à 15:53
+-- Version du serveur : 10.4.24-MariaDB
+-- Version de PHP : 7.4.28
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `evento`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `bt_bmeeting_room`
+--
+
+CREATE TABLE `bt_bmeeting_room` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `theme` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` int(11) NOT NULL,
+  `maximum_invitation_number` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `bt_bmeeting_room`
+--
+
+INSERT INTO `bt_bmeeting_room` (`id`, `event_id`, `theme`, `name`, `state`, `maximum_invitation_number`) VALUES
+(1, 1, 'What is Lorem Ipsum?\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'Inestors', 0, 30),
+(2, 1, '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 'companies', 1, 15);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `client_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `civility` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `functionnality` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country_index` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `clients`
+--
+
+INSERT INTO `clients` (`id`, `user_id`, `client_name`, `civility`, `functionnality`, `country_index`, `logo_url`) VALUES
+(1, 2, 'Jason stathem', 'Mr', 'actor', '+216', '/assets/img/clients/logos/625403edeab76.png');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `doctrine_migration_versions`
+--
+
+CREATE TABLE `doctrine_migration_versions` (
+  `version` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
+  `executed_at` datetime DEFAULT NULL,
+  `execution_time` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `doctrine_migration_versions`
+--
+
+INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
+('DoctrineMigrations\\Version20220411091456', '2022-04-11 12:02:38', 126618),
+('DoctrineMigrations\\Version20220411104736', '2022-04-11 12:47:40', 2037),
+('DoctrineMigrations\\Version20220411121047', '2022-04-11 14:10:53', 3633),
+('DoctrineMigrations\\Version20220412131031', '2022-04-12 15:10:39', 2565),
+('DoctrineMigrations\\Version20220413114314', '2022-04-13 13:43:19', 283);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `events`
+--
+
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `access_type_id` int(11) DEFAULT NULL,
+  `event_accessibility_id` int(11) DEFAULT NULL,
+  `will_be_available_for_nmonths_id` int(11) DEFAULT NULL,
+  `event_lng_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_subscribers_number` int(11) NOT NULL,
+  `events_length_in_days` int(11) NOT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `type_zone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `steaming_link` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `streaming_platform` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `into_the_event_photo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo_alt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `events`
+--
+
+INSERT INTO `events` (`id`, `client_id`, `type_id`, `access_type_id`, `event_accessibility_id`, `will_be_available_for_nmonths_id`, `event_lng_id`, `name`, `total_subscribers_number`, `events_length_in_days`, `start_date`, `end_date`, `type_zone`, `location`, `description`, `photo_url`, `steaming_link`, `streaming_platform`, `into_the_event_photo_url`, `logo_url`, `logo_alt`) VALUES
+(1, 1, 2, 2, 1, 1, 1, 'The expandables 4', 1000, 3, '2022-04-28 11:33:00', '2022-04-30 11:34:00', 'Africa/Tunis', 'Tunis hotel africa', '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', '/assets/img/clients/logos/625404718bc62.png', '<iframe width=\"683\" height=\"384\" src=\"https://www.youtube.com/embed/0n_67bM-WMw?list=RD0n_67bM-WMw\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>', '1', '/assets/img/events/auth/625565f878ae4.png', '/assets/img/events/logos/625404718d545.png', 'TEST');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `events_accessibility`
+--
+
+CREATE TABLE `events_accessibility` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `events_accessibility`
+--
+
+INSERT INTO `events_accessibility` (`id`, `name`) VALUES
+(1, 'Public'),
+(2, 'Private'),
+(3, 'hidden');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `events_access_types`
+--
+
+CREATE TABLE `events_access_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `events_access_types`
+--
+
+INSERT INTO `events_access_types` (`id`, `name`) VALUES
+(1, 'Payed'),
+(2, 'Free'),
+(3, 'Free & payed');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `events_durations`
+--
+
+CREATE TABLE `events_durations` (
+  `id` int(11) NOT NULL,
+  `duration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `events_durations`
+--
+
+INSERT INTO `events_durations` (`id`, `duration`) VALUES
+(1, 3),
+(2, 0),
+(3, 6),
+(4, 12);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `events_languages`
+--
+
+CREATE TABLE `events_languages` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `events_languages`
+--
+
+INSERT INTO `events_languages` (`id`, `name`) VALUES
+(1, 'French'),
+(2, 'English'),
+(3, 'Arabe');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_associated_profile_feilds`
+--
+
+CREATE TABLE `event_associated_profile_feilds` (
+  `id` int(11) NOT NULL,
+  `profile_id` int(11) DEFAULT NULL,
+  `field_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `event_associated_profile_feilds`
+--
+
+INSERT INTO `event_associated_profile_feilds` (`id`, `profile_id`, `field_id`) VALUES
+(1, 1, 1),
+(2, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_profiles`
+--
+
+CREATE TABLE `event_profiles` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tarification` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` double DEFAULT NULL,
+  `descreption` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `participants_number` int(11) NOT NULL,
+  `unique_id` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `event_profiles`
+--
+
+INSERT INTO `event_profiles` (`id`, `event_id`, `label`, `tarification`, `price`, `descreption`, `participants_number`, `unique_id`) VALUES
+(1, 1, 'Exposer', '1', 100, '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&nbsp;</p>', 120, '1_625565d1e9d88'),
+(2, 1, 'Student', '0', NULL, '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&nbsp;</p>', 1000, '1_625568a15fcc6');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_profile_feilds`
+--
+
+CREATE TABLE `event_profile_feilds` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `label_fr` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `label_en` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `required` tinyint(1) DEFAULT NULL,
+  `lingne_order` int(11) NOT NULL,
+  `primary_feild` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `event_profile_feilds`
+--
+
+INSERT INTO `event_profile_feilds` (`id`, `event_id`, `label_fr`, `label_en`, `required`, `lingne_order`, `primary_feild`) VALUES
+(1, 1, 'Age', 'Age', 1, 1, 1),
+(2, 1, 'Adresse', 'Address', 1, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_profile_feild_value`
+--
+
+CREATE TABLE `event_profile_feild_value` (
+  `id` int(11) NOT NULL,
+  `event_feild_id` int(11) DEFAULT NULL,
+  `value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_rooms`
+--
+
+CREATE TABLE `event_rooms` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `privacy_id` int(11) DEFAULT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo_alt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `maximum_number_of_participants` int(11) DEFAULT NULL,
+  `youtube_share` tinyint(1) DEFAULT NULL,
+  `key_words` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
+  `worker_profiles` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_rooms_privacy`
+--
+
+CREATE TABLE `event_rooms_privacy` (
+  `id` int(11) NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `event_rooms_privacy`
+--
+
+INSERT INTO `event_rooms_privacy` (`id`, `label`, `label_en`) VALUES
+(1, 'Publique', 'Public'),
+(2, 'Types de profils  spécifiques', 'Specific profile types'),
+(3, 'Privé (sur invitation uniquement)', 'Private ( invitation only )'),
+(4, 'Non répertorié (accès via lien)', 'Not listed (access via link)');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_stands`
+--
+
+CREATE TABLE `event_stands` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `mesure_id` int(11) DEFAULT NULL,
+  `participant_id` int(11) DEFAULT NULL,
+  `providername` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tags` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `linked_in` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instagram` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `twitter` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `facebook` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `can_edit_params` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_stand_mesures`
+--
+
+CREATE TABLE `event_stand_mesures` (
+  `id` int(11) NOT NULL,
+  `meusure` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `event_stand_mesures`
+--
+
+INSERT INTO `event_stand_mesures` (`id`, `meusure`) VALUES
+(1, '1m * 2m');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `event_types`
+--
+
+CREATE TABLE `event_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `event_types`
+--
+
+INSERT INTO `event_types` (`id`, `name`) VALUES
+(1, 'Hybride'),
+(2, 'Physique'),
+(3, 'Virtuel');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `exposer`
+--
+
+CREATE TABLE `exposer` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `website` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `mail_template`
+--
+
+CREATE TABLE `mail_template` (
+  `id` int(11) NOT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `object` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `profiles` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `mail_types`
+--
+
+CREATE TABLE `mail_types` (
+  `id` int(11) NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `meeting_sessions`
+--
+
+CREATE TABLE `meeting_sessions` (
+  `id` int(11) NOT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `language_id` int(11) DEFAULT NULL,
+  `place` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_and_time` datetime DEFAULT NULL,
+  `minutes_per_rdv` int(11) NOT NULL,
+  `interpretation` tinyint(1) DEFAULT NULL,
+  `nbr_tables_per_session` int(11) NOT NULL,
+  `table_rotation` int(11) NOT NULL,
+  `matchmaking` int(11) DEFAULT NULL,
+  `by_who` int(11) DEFAULT NULL,
+  `accessebility` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `meeting_sessions`
+--
+
+INSERT INTO `meeting_sessions` (`id`, `room_id`, `language_id`, `place`, `date_and_time`, `minutes_per_rdv`, `interpretation`, `nbr_tables_per_session`, `table_rotation`, `matchmaking`, `by_who`, `accessebility`) VALUES
+(1, 1, 1, 'Main hall hotel Africa', '2022-04-29 11:04:00', 15, 0, 5, 1, 1, 2, 1),
+(2, 2, 1, 'Main hall hotel Africa', '2022-04-13 12:07:00', 15, 0, 5, 1, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notes`
+--
+
+CREATE TABLE `notes` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `is_admin_note` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `notes_categories`
+--
+
+CREATE TABLE `notes_categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `color_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `notes_categories`
+--
+
+INSERT INTO `notes_categories` (`id`, `name`, `color_code`) VALUES
+(1, 'Urgent', '#ff9e9e');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `participant`
+--
+
+CREATE TABLE `participant` (
+  `id` int(11) NOT NULL,
+  `profile_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `participant`
+--
+
+INSERT INTO `participant` (`id`, `profile_id`, `user_id`) VALUES
+(1, 1, 3),
+(2, 2, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `participant_feilds_images`
+--
+
+CREATE TABLE `participant_feilds_images` (
+  `id` int(11) NOT NULL,
+  `participant_id` int(11) DEFAULT NULL,
+  `label_fr` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label_en` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `participant_feilds_images`
+--
+
+INSERT INTO `participant_feilds_images` (`id`, `participant_id`, `label_fr`, `label_en`, `value`) VALUES
+(1, 1, 'Age', 'Age', '28'),
+(2, 1, 'Adresse', 'Address', 'somewhere on 1007 street');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `profile`
+--
+
+CREATE TABLE `profile` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `room_access_profiles`
+--
+
+CREATE TABLE `room_access_profiles` (
+  `id` int(11) NOT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `profile_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `room_participants_invitations`
+--
+
+CREATE TABLE `room_participants_invitations` (
+  `id` int(11) NOT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `participant_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `room_programm`
+--
+
+CREATE TABLE `room_programm` (
+  `id` int(11) NOT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
+  `timezone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tags` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
+  `manage_interactivity` tinyint(1) DEFAULT NULL,
+  `can_chat` tinyint(1) DEFAULT NULL,
+  `activate_sondage` tinyint(1) DEFAULT NULL,
+  `activate_participants_list` tinyint(1) DEFAULT NULL,
+  `activate_question_response` tinyint(1) DEFAULT NULL,
+  `send_questionin_private` tinyint(1) DEFAULT NULL,
+  `mode` int(11) NOT NULL,
+  `live_link_url` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `live_translation_link_url` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `re_share_link_url` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `re_share_translation_link_url` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `main_sponsor_photo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `can_be_showen_in_programme_page` tinyint(1) DEFAULT NULL,
+  `type` int(11) NOT NULL,
+  `participants` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
+  `sponsors` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)',
+  `exposers` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '(DC2Type:array)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `room_session_access`
+--
+
+CREATE TABLE `room_session_access` (
+  `id` int(11) NOT NULL,
+  `participant_id` int(11) DEFAULT NULL,
+  `session_id` int(11) DEFAULT NULL,
+  `invitations` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `room_session_access`
+--
+
+INSERT INTO `room_session_access` (`id`, `participant_id`, `session_id`, `invitations`) VALUES
+(2, 1, 1, 15),
+(3, 2, 1, 15),
+(4, 1, 2, 20),
+(5, 2, 2, 15);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `sponsors`
+--
+
+CREATE TABLE `sponsors` (
+  `id` int(11) NOT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `website` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `sponsors_types`
+--
+
+CREATE TABLE `sponsors_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `sponsors_types`
+--
+
+INSERT INTO `sponsors_types` (`id`, `name`) VALUES
+(1, 'Silver'),
+(2, 'Gold');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `stand_catalogue`
+--
+
+CREATE TABLE `stand_catalogue` (
+  `id` int(11) NOT NULL,
+  `stand_id` int(11) DEFAULT NULL,
+  `cataloge_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cataloge_pdfurl` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `stand_configurations`
+--
+
+CREATE TABLE `stand_configurations` (
+  `id` int(11) NOT NULL,
+  `profile_id` int(11) DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `maximum_number_of_products` int(11) NOT NULL,
+  `maximum_number_of_catalogues` int(11) NOT NULL,
+  `maximum_number_of_videos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `stand_product`
+--
+
+CREATE TABLE `stand_product` (
+  `id` int(11) NOT NULL,
+  `stand_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descreption` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `stand_videos`
+--
+
+CREATE TABLE `stand_videos` (
+  `id` int(11) NOT NULL,
+  `stand_id` int(11) DEFAULT NULL,
+  `lien` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tags`
+--
+
+CREATE TABLE `tags` (
+  `id` int(11) NOT NULL,
+  `tag` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `roles` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)',
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sexe` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `photo_url`, `firstname`, `lastname`, `phone`, `sexe`) VALUES
+(1, 'admin@evento.com', '[\"ROLE_ADMIN\"]', '$2y$13$wnXLQeRDxvXmo/Af1TZCwu48mbyeoHxuUeClR7KxNs5w1wO/Krb9i', '/assets/img/clients/default.png', 'Admin', 'Evento', '22334455', NULL),
+(2, 'jason@gmail.com', '[\"ROLE_CLIENT\"]', '$2y$13$LE4xBKrh4lTtmknwTZWM7OAfdxIUKmD3M4ao4MR4K9UvOoMhCDnCS', '/assets/img/clients/625403ede58ed.png', 'jason', 'stathem', '11223344', NULL),
+(3, 'tchourabi@gmail.com', '[\"ROLE_PARTICIPANT\"]', '$2y$13$gNj27nGiP.CrsEl06eE8YeXyfHnCqRZ24VMvCiu89Cnq3II.1zQv6', '/assets/img/participants/default.png', 'chourabi', 'taher', '93863732', 0),
+(4, 'angolina@gmail.com', '[\"ROLE_PARTICIPANT\"]', '$2y$13$BhEkgXiZDzR3meQXlPiQLuFH/xvyktdKNKIYNcrMtIvZG26x1c/D.', '/assets/img/participants/default.png', 'angolina', 'jolie', '56789856', 1);
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `bt_bmeeting_room`
+--
+ALTER TABLE `bt_bmeeting_room`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_24F1232671F7E88B` (`event_id`);
+
+--
+-- Index pour la table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_C82E74A76ED395` (`user_id`);
+
+--
+-- Index pour la table `doctrine_migration_versions`
+--
+ALTER TABLE `doctrine_migration_versions`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Index pour la table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_5387574A19EB6921` (`client_id`),
+  ADD KEY `IDX_5387574AC54C8C93` (`type_id`),
+  ADD KEY `IDX_5387574AD695686` (`access_type_id`),
+  ADD KEY `IDX_5387574AA9FECF68` (`event_accessibility_id`),
+  ADD KEY `IDX_5387574A2406EF21` (`will_be_available_for_nmonths_id`),
+  ADD KEY `IDX_5387574AE59E0364` (`event_lng_id`);
+
+--
+-- Index pour la table `events_accessibility`
+--
+ALTER TABLE `events_accessibility`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `events_access_types`
+--
+ALTER TABLE `events_access_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `events_durations`
+--
+ALTER TABLE `events_durations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `events_languages`
+--
+ALTER TABLE `events_languages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `event_associated_profile_feilds`
+--
+ALTER TABLE `event_associated_profile_feilds`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_A7F93F61CCFA12B8` (`profile_id`),
+  ADD KEY `IDX_A7F93F61443707B0` (`field_id`);
+
+--
+-- Index pour la table `event_profiles`
+--
+ALTER TABLE `event_profiles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_CDDC6CE071F7E88B` (`event_id`);
+
+--
+-- Index pour la table `event_profile_feilds`
+--
+ALTER TABLE `event_profile_feilds`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_46AD602571F7E88B` (`event_id`);
+
+--
+-- Index pour la table `event_profile_feild_value`
+--
+ALTER TABLE `event_profile_feild_value`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_289DECBEB2B9446F` (`event_feild_id`);
+
+--
+-- Index pour la table `event_rooms`
+--
+ALTER TABLE `event_rooms`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_3DBAABBA71F7E88B` (`event_id`),
+  ADD KEY `IDX_3DBAABBA19877A6A` (`privacy_id`);
+
+--
+-- Index pour la table `event_rooms_privacy`
+--
+ALTER TABLE `event_rooms_privacy`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `event_stands`
+--
+ALTER TABLE `event_stands`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_BF117F871F7E88B` (`event_id`),
+  ADD KEY `IDX_BF117F843AB22FA` (`mesure_id`),
+  ADD KEY `IDX_BF117F89D1C3019` (`participant_id`);
+
+--
+-- Index pour la table `event_stand_mesures`
+--
+ALTER TABLE `event_stand_mesures`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `event_types`
+--
+ALTER TABLE `event_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `exposer`
+--
+ALTER TABLE `exposer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_C9326DF171F7E88B` (`event_id`);
+
+--
+-- Index pour la table `mail_template`
+--
+ALTER TABLE `mail_template`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_4AB7DECB71F7E88B` (`event_id`),
+  ADD KEY `IDX_4AB7DECBC54C8C93` (`type_id`);
+
+--
+-- Index pour la table `mail_types`
+--
+ALTER TABLE `mail_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `meeting_sessions`
+--
+ALTER TABLE `meeting_sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_9F1B0C654177093` (`room_id`),
+  ADD KEY `IDX_9F1B0C682F1BAF4` (`language_id`);
+
+--
+-- Index pour la table `notes`
+--
+ALTER TABLE `notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_11BA68C19EB6921` (`client_id`),
+  ADD KEY `IDX_11BA68C12469DE2` (`category_id`);
+
+--
+-- Index pour la table `notes_categories`
+--
+ALTER TABLE `notes_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `participant`
+--
+ALTER TABLE `participant`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_D79F6B11A76ED395` (`user_id`),
+  ADD KEY `IDX_D79F6B11CCFA12B8` (`profile_id`);
+
+--
+-- Index pour la table `participant_feilds_images`
+--
+ALTER TABLE `participant_feilds_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_D339CC8A9D1C3019` (`participant_id`);
+
+--
+-- Index pour la table `profile`
+--
+ALTER TABLE `profile`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_8157AA0FA76ED395` (`user_id`);
+
+--
+-- Index pour la table `room_access_profiles`
+--
+ALTER TABLE `room_access_profiles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_2560CA5754177093` (`room_id`),
+  ADD KEY `IDX_2560CA57CCFA12B8` (`profile_id`);
+
+--
+-- Index pour la table `room_participants_invitations`
+--
+ALTER TABLE `room_participants_invitations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_FC08DDC54177093` (`room_id`),
+  ADD KEY `IDX_FC08DDC9D1C3019` (`participant_id`);
+
+--
+-- Index pour la table `room_programm`
+--
+ALTER TABLE `room_programm`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_ABA098E254177093` (`room_id`);
+
+--
+-- Index pour la table `room_session_access`
+--
+ALTER TABLE `room_session_access`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_2002D6F09D1C3019` (`participant_id`),
+  ADD KEY `IDX_2002D6F0613FECDF` (`session_id`);
+
+--
+-- Index pour la table `sponsors`
+--
+ALTER TABLE `sponsors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_9A31550FC54C8C93` (`type_id`),
+  ADD KEY `IDX_9A31550F71F7E88B` (`event_id`);
+
+--
+-- Index pour la table `sponsors_types`
+--
+ALTER TABLE `sponsors_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `stand_catalogue`
+--
+ALTER TABLE `stand_catalogue`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_368A86859734D487` (`stand_id`);
+
+--
+-- Index pour la table `stand_configurations`
+--
+ALTER TABLE `stand_configurations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_21860533CCFA12B8` (`profile_id`),
+  ADD KEY `IDX_2186053371F7E88B` (`event_id`);
+
+--
+-- Index pour la table `stand_product`
+--
+ALTER TABLE `stand_product`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_B2DD7B699734D487` (`stand_id`);
+
+--
+-- Index pour la table `stand_videos`
+--
+ALTER TABLE `stand_videos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_D52A73EC9734D487` (`stand_id`);
+
+--
+-- Index pour la table `tags`
+--
+ALTER TABLE `tags`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `bt_bmeeting_room`
+--
+ALTER TABLE `bt_bmeeting_room`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `events`
+--
+ALTER TABLE `events`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `events_accessibility`
+--
+ALTER TABLE `events_accessibility`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `events_access_types`
+--
+ALTER TABLE `events_access_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `events_durations`
+--
+ALTER TABLE `events_durations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `events_languages`
+--
+ALTER TABLE `events_languages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `event_associated_profile_feilds`
+--
+ALTER TABLE `event_associated_profile_feilds`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `event_profiles`
+--
+ALTER TABLE `event_profiles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `event_profile_feilds`
+--
+ALTER TABLE `event_profile_feilds`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `event_profile_feild_value`
+--
+ALTER TABLE `event_profile_feild_value`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `event_rooms`
+--
+ALTER TABLE `event_rooms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `event_rooms_privacy`
+--
+ALTER TABLE `event_rooms_privacy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `event_stands`
+--
+ALTER TABLE `event_stands`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `event_stand_mesures`
+--
+ALTER TABLE `event_stand_mesures`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `event_types`
+--
+ALTER TABLE `event_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `exposer`
+--
+ALTER TABLE `exposer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `mail_template`
+--
+ALTER TABLE `mail_template`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `mail_types`
+--
+ALTER TABLE `mail_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `meeting_sessions`
+--
+ALTER TABLE `meeting_sessions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `notes`
+--
+ALTER TABLE `notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `notes_categories`
+--
+ALTER TABLE `notes_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `participant`
+--
+ALTER TABLE `participant`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `participant_feilds_images`
+--
+ALTER TABLE `participant_feilds_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `profile`
+--
+ALTER TABLE `profile`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `room_access_profiles`
+--
+ALTER TABLE `room_access_profiles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `room_participants_invitations`
+--
+ALTER TABLE `room_participants_invitations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `room_programm`
+--
+ALTER TABLE `room_programm`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `room_session_access`
+--
+ALTER TABLE `room_session_access`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT pour la table `sponsors`
+--
+ALTER TABLE `sponsors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `sponsors_types`
+--
+ALTER TABLE `sponsors_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `stand_catalogue`
+--
+ALTER TABLE `stand_catalogue`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `stand_configurations`
+--
+ALTER TABLE `stand_configurations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `stand_product`
+--
+ALTER TABLE `stand_product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `stand_videos`
+--
+ALTER TABLE `stand_videos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `tags`
+--
+ALTER TABLE `tags`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `bt_bmeeting_room`
+--
+ALTER TABLE `bt_bmeeting_room`
+  ADD CONSTRAINT `FK_24F1232671F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`);
+
+--
+-- Contraintes pour la table `clients`
+--
+ALTER TABLE `clients`
+  ADD CONSTRAINT `FK_C82E74A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Contraintes pour la table `events`
+--
+ALTER TABLE `events`
+  ADD CONSTRAINT `FK_5387574A19EB6921` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`),
+  ADD CONSTRAINT `FK_5387574A2406EF21` FOREIGN KEY (`will_be_available_for_nmonths_id`) REFERENCES `events_durations` (`id`),
+  ADD CONSTRAINT `FK_5387574AA9FECF68` FOREIGN KEY (`event_accessibility_id`) REFERENCES `events_accessibility` (`id`),
+  ADD CONSTRAINT `FK_5387574AC54C8C93` FOREIGN KEY (`type_id`) REFERENCES `event_types` (`id`),
+  ADD CONSTRAINT `FK_5387574AD695686` FOREIGN KEY (`access_type_id`) REFERENCES `events_access_types` (`id`),
+  ADD CONSTRAINT `FK_5387574AE59E0364` FOREIGN KEY (`event_lng_id`) REFERENCES `events_languages` (`id`);
+
+--
+-- Contraintes pour la table `event_associated_profile_feilds`
+--
+ALTER TABLE `event_associated_profile_feilds`
+  ADD CONSTRAINT `FK_A7F93F61443707B0` FOREIGN KEY (`field_id`) REFERENCES `event_profile_feilds` (`id`),
+  ADD CONSTRAINT `FK_A7F93F61CCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `event_profiles` (`id`);
+
+--
+-- Contraintes pour la table `event_profiles`
+--
+ALTER TABLE `event_profiles`
+  ADD CONSTRAINT `FK_CDDC6CE071F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`);
+
+--
+-- Contraintes pour la table `event_profile_feilds`
+--
+ALTER TABLE `event_profile_feilds`
+  ADD CONSTRAINT `FK_46AD602571F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`);
+
+--
+-- Contraintes pour la table `event_profile_feild_value`
+--
+ALTER TABLE `event_profile_feild_value`
+  ADD CONSTRAINT `FK_289DECBEB2B9446F` FOREIGN KEY (`event_feild_id`) REFERENCES `event_profile_feilds` (`id`);
+
+--
+-- Contraintes pour la table `event_rooms`
+--
+ALTER TABLE `event_rooms`
+  ADD CONSTRAINT `FK_3DBAABBA19877A6A` FOREIGN KEY (`privacy_id`) REFERENCES `event_rooms_privacy` (`id`),
+  ADD CONSTRAINT `FK_3DBAABBA71F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`);
+
+--
+-- Contraintes pour la table `event_stands`
+--
+ALTER TABLE `event_stands`
+  ADD CONSTRAINT `FK_BF117F843AB22FA` FOREIGN KEY (`mesure_id`) REFERENCES `event_stand_mesures` (`id`),
+  ADD CONSTRAINT `FK_BF117F871F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  ADD CONSTRAINT `FK_BF117F89D1C3019` FOREIGN KEY (`participant_id`) REFERENCES `participant` (`id`);
+
+--
+-- Contraintes pour la table `exposer`
+--
+ALTER TABLE `exposer`
+  ADD CONSTRAINT `FK_C9326DF171F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`);
+
+--
+-- Contraintes pour la table `mail_template`
+--
+ALTER TABLE `mail_template`
+  ADD CONSTRAINT `FK_4AB7DECB71F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  ADD CONSTRAINT `FK_4AB7DECBC54C8C93` FOREIGN KEY (`type_id`) REFERENCES `mail_types` (`id`);
+
+--
+-- Contraintes pour la table `meeting_sessions`
+--
+ALTER TABLE `meeting_sessions`
+  ADD CONSTRAINT `FK_9F1B0C654177093` FOREIGN KEY (`room_id`) REFERENCES `bt_bmeeting_room` (`id`),
+  ADD CONSTRAINT `FK_9F1B0C682F1BAF4` FOREIGN KEY (`language_id`) REFERENCES `events_languages` (`id`);
+
+--
+-- Contraintes pour la table `notes`
+--
+ALTER TABLE `notes`
+  ADD CONSTRAINT `FK_11BA68C12469DE2` FOREIGN KEY (`category_id`) REFERENCES `notes_categories` (`id`),
+  ADD CONSTRAINT `FK_11BA68C19EB6921` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`);
+
+--
+-- Contraintes pour la table `participant`
+--
+ALTER TABLE `participant`
+  ADD CONSTRAINT `FK_D79F6B11A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FK_D79F6B11CCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `event_profiles` (`id`);
+
+--
+-- Contraintes pour la table `participant_feilds_images`
+--
+ALTER TABLE `participant_feilds_images`
+  ADD CONSTRAINT `FK_D339CC8A9D1C3019` FOREIGN KEY (`participant_id`) REFERENCES `participant` (`id`);
+
+--
+-- Contraintes pour la table `profile`
+--
+ALTER TABLE `profile`
+  ADD CONSTRAINT `FK_8157AA0FA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Contraintes pour la table `room_access_profiles`
+--
+ALTER TABLE `room_access_profiles`
+  ADD CONSTRAINT `FK_2560CA5754177093` FOREIGN KEY (`room_id`) REFERENCES `event_rooms` (`id`),
+  ADD CONSTRAINT `FK_2560CA57CCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `event_profiles` (`id`);
+
+--
+-- Contraintes pour la table `room_participants_invitations`
+--
+ALTER TABLE `room_participants_invitations`
+  ADD CONSTRAINT `FK_FC08DDC54177093` FOREIGN KEY (`room_id`) REFERENCES `event_rooms` (`id`),
+  ADD CONSTRAINT `FK_FC08DDC9D1C3019` FOREIGN KEY (`participant_id`) REFERENCES `participant` (`id`);
+
+--
+-- Contraintes pour la table `room_programm`
+--
+ALTER TABLE `room_programm`
+  ADD CONSTRAINT `FK_ABA098E254177093` FOREIGN KEY (`room_id`) REFERENCES `event_rooms` (`id`);
+
+--
+-- Contraintes pour la table `room_session_access`
+--
+ALTER TABLE `room_session_access`
+  ADD CONSTRAINT `FK_2002D6F0613FECDF` FOREIGN KEY (`session_id`) REFERENCES `meeting_sessions` (`id`),
+  ADD CONSTRAINT `FK_2002D6F09D1C3019` FOREIGN KEY (`participant_id`) REFERENCES `participant` (`id`);
+
+--
+-- Contraintes pour la table `sponsors`
+--
+ALTER TABLE `sponsors`
+  ADD CONSTRAINT `FK_9A31550F71F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  ADD CONSTRAINT `FK_9A31550FC54C8C93` FOREIGN KEY (`type_id`) REFERENCES `sponsors_types` (`id`);
+
+--
+-- Contraintes pour la table `stand_catalogue`
+--
+ALTER TABLE `stand_catalogue`
+  ADD CONSTRAINT `FK_368A86859734D487` FOREIGN KEY (`stand_id`) REFERENCES `event_stands` (`id`);
+
+--
+-- Contraintes pour la table `stand_configurations`
+--
+ALTER TABLE `stand_configurations`
+  ADD CONSTRAINT `FK_2186053371F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  ADD CONSTRAINT `FK_21860533CCFA12B8` FOREIGN KEY (`profile_id`) REFERENCES `event_profiles` (`id`);
+
+--
+-- Contraintes pour la table `stand_product`
+--
+ALTER TABLE `stand_product`
+  ADD CONSTRAINT `FK_B2DD7B699734D487` FOREIGN KEY (`stand_id`) REFERENCES `event_stands` (`id`);
+
+--
+-- Contraintes pour la table `stand_videos`
+--
+ALTER TABLE `stand_videos`
+  ADD CONSTRAINT `FK_D52A73EC9734D487` FOREIGN KEY (`stand_id`) REFERENCES `event_stands` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

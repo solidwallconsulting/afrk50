@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tell us more - AFRK50 {% endblock %}
+
+{% block body %}
+ 
+
+<div id="content" class=" ">
+    <div class="container-fluid p-0">
+ 
+
+
+
+         <div class="d-flex w-100 page-cover"   style="flex-direction: column;
+         justify-content: space-between;
+         align-items: start;min-height: 77vh;;background-image: url({{asset('/assets/img/partner-header-bg.jpg')}});">
+            <div class="container">
+                <!--<img src="/assets/img/afrk50-logo.png" class="mt-4" alt="" width="176px">-->
+            </div>
+            <div class="container">
+                <div class="page-title">PARTNERSHIP</div>
+            </div>
+         </div>
+
+
+         <div class="container custom-page-content">
+
+
+
+
+            <div class="custom-page-title mt-5 mb-5">
+               LET US PARTNER! TELL US MORE!
+             </div>
+
+
+
+             {% if message != '' %}
+                <div class="alert alert-success">
+                    {{message}}
+                </div>
+                
+             {% endif %}
+
+
+             {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary btn-submit">{{ button_label|default('Submit') }}</button>
+            {{ form_end(form) }}
+         
+
+
+         </div>
+
+
+           
+            
+         </div>
+
+
+         
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+ 

@@ -1,0 +1,480 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Explore - AFRK50 {% endblock %}
+
+{% block body %}
+ 
+
+<div id="content" class=" ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3" style="height: 100%;">
+                <div class="card card-body">
+                    <p class="text-center">
+                        <strong>What are you looking for?</strong><br>
+                        Filters
+                    </p>
+
+                    
+                    <form method="get">
+                        <div class="form-group">
+                            <label for="">Listing Type</label>
+                            <select class="form-control select2" name="listing-type">
+                                <option value="">All</option>
+                                {% for c in listings %}
+                                     <option {% if c.id== listingType %} selected {% endif %} value="{{c.id}}">{{c.name}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        {% if listingType != null  %}
+                            <div class="form-group mt-3"> 
+                                <label for="">Category</label>
+                                <select class="form-control select2" name="listing-categories">
+                                    <option value="">All categories  </option>
+                                    {% for c in categories %} 
+                                        
+
+                                        {% if listingType != null %}
+                                            {% if c.listing.id == listingType %}
+                                            <option {% if c.id == category %} selected {% endif %}  value="{{c.id}}">{{c.name}}</option>
+                                            {% endif %}
+                                        {% else %}
+                                            <option {% if c.id == category %} selected {% endif %} value="{{c.id}}">{{c.name}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+    
+                        {% endif %}
+                        
+    
+                        <div class="form-group mt-3"> 
+                            <input name="search" value="{{search}}" type="text" placeholder="What are you looking for ?" class="form-control-afrk">
+                        </div>
+
+
+                        <div class="form-group mt-3">
+                        
+                            <label>Where to look?</label>
+                            <select class="form-control select2" name="address">
+                                <option value="">All</option>
+                                {% for c in companies %}
+                                     <option {% if category == c.id %} selected {% endif %}    value="{{c.address}}">{{c.address}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+
+
+                        
+                        <div class="form-group mt-3">
+                            <label for="">Order by</label>
+                            <select class="form-control select2" name="order-by">
+                                <option {% if orderBy == "1" %} selected {% endif %}    value="1">Top rated</option>
+                                <option {% if orderBy == "2" %} selected {% endif %}  value="2">Latest</option>
+                                <option {% if orderBy == "3" %} selected {% endif %}  value="3">A-Z</option>
+                                <option {% if orderBy == "4" %} selected {% endif %}  value="4">Sponsored</option>  
+                                
+                            </select>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button class="btn btn-primary w-100"><i class="fas fa-search"></i> Search</button>
+                        </div> 
+                        <p class="mt-3 text-center text-muted">
+                           <a class="text-muted" href="{{ path('marketplace_route') }}"> <i class="fas fa-redo"></i> Reset Filters</a>
+                        </p>
+                    </form>
+                    
+
+                </div>
+            </div>
+            <div class="col-md-6" id="listing-bloc">
+                <div class="row mt-3">
+                    <div class="col-12">
+
+                         
+                        <div class="d-flex justify-content-between ">
+                            <div>
+                                
+
+                                <a class="text-black" href="?listing-type={{listingType}}&search={{search}}&address={{address}}&listing-categories={{category}}&order-by={{orderBy}}&page={{ previousPageIndex }}"><i class="fas fa-arrow-left"></i></a>
+                            </div>
+                            <div>
+                                
+                                {% if companies | length  != 0 %}
+                                    <p>Showing {% if ((pageIndex * 10) + 10) > totalCompanies %}
+                                        {{totalCompanies}}
+                                    {% else %}
+                                        {{ ((pageIndex * 10) + 10) }}
+                                    {% endif %}  results out of {{ totalCompanies }}</p>
+                                {% endif %}
+                            </div>
+                            <div>
+                                
+
+                                <a class="text-black" href="?listing-type={{listingType}}&search={{search}}&address={{address}}&listing-categories={{category}}&order-by={{orderBy}}&page={{ nextPageIndex }}"><i class="fas fa-arrow-right"></i></a>
+                                
+                                
+                                <a href="#" class="toggle-map-market-place text-black" style="margin-left: 15px;"><i class="fas fa-map"></i></a>
+                                
+                            </div>
+                            
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    {% if companies | length  == 0 %}
+                        <div class="text-center">
+                            <span class="text-muted" style="    font-size: 42px;"> <i class="far fa-sad-cry"></i> </span>
+                            <p class="text-muted" >There are no listings matching your search.</p>
+                            <a class="text-muted" href="{{ path('marketplace_route') }}"> <i class="fas fa-redo"></i> Reset Filters</a>
+                        </div>
+                    {% endif %}
+
+
+                    {% for item in companies %} 
+
+                    <!-- Modal -->
+ 
+
+
+                    <div class="modal fade business-modal-zoom" lat="{{item.lat}}" lng="{{item.lng}}" target-id="map-{{item.id}}" id="zoom-{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                         
+                            <div class="modal-body" style="    padding-top: 0;padding-bottom: 0;
+                            padding-left: 12px;padding-right: 12px;">
+                                <div class="row">
+                                    <div class=" col-sm-6" style="padding: 0;">
+                                        <div class="business-card" style="background-image: url({{ asset(item.coverImageURL) }});">
+                              
+                              
+    
+                              
+                                            {% if item.avgRating != null and  item.avgRating != 0 %}
+                                            <div class="starts">
+                                              <div class="solid-rating" rating="{{item.avgRating}}"></div>
+                                            </div>
+                                            {% endif %}
+                  
+                                            
+                        
+                                            <div class="info-bloc" company="{{item.id}}">
+                                                <div class="avatar" style="background-image: url({{ asset(item.logoURL) }});"></div>
+                                                <div class="name">{{item.name}}</div>
+                                                <div class="description text-muted">{{item.slogan}}</div>
+                                                <div class="location text-muted"><i class="fas fa-map-marker-alt"></i> {{item.address}}</div>
+                                            </div>
+                        
+                        
+                                        </div>
+                        
+    
+                                        <div class="  w-100">
+                                            <div class="  p-0 " >
+                                            <div class="business-card-zoom"  >
+                                                <div class="row div col-sm-12">
+                                                  
+                                                </div>
+                                                
+                                                <div class="row div col-sm-12">
+                                                    <div class="  company-card-details">
+                                                        <div class="card-body     mt-3">
+                                                            <div class="d-flex ">
+                                                                <i class="fas fa-bars side-icon"></i>  <h5 class="title-style-1">Description</h5> 
+                                                            </div>
+                                                            <div class="body">
+                                                                <p class="text-muted">{{item.description | raw}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="row div col-sm-12  mt-2">
+                                                    <div class="  company-card-details">
+                                                        <div class="card-body    ">
+                                                            <div class="d-flex mb-3">
+                                                                <i class="fas fa-th-large side-icon"></i>  <h5 class="title-style-1">Categories</h5> 
+                                                            </div>
+                                                            <div class="body">
+                                                                <div class="row">
+                                                                    
+                                                                    {% for cat in item.companyCategories %}
+                                                                        <div class="col-md-6 col-sm-12 mb-3">
+                                                                            <div class="company-social-media">
+                                                                                <a href="#">
+                                                                                    <i style="    color: {{item.listing.color}};
+                                    background: rgb(27 127 204 / 80%);" class="{{item.listing.icon}}"></i> <span>{{cat.category.name}}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endfor %}
+                                
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                            
+                            
+                                            </div>
+                            
+                            
+                                            </div>
+                                            <div class="card-footer card-footer border-0 bg-white">
+                                                <div class="d-flex d-flex justify-content-between">
+                                                    <div>
+                                                    <div class="circle-green" style="background-color:{{item.listing.color}}">
+                                                        <i class="{{item.listing.icon}}"></i>
+                                                    </div>
+                                                    <div class="card-type">
+                                                        {{item.listing}}
+                                                    </div>
+                                
+                                                    </div>
+                                
+                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-6" style="padding: 0;"  >
+                                            
+                                        <div class="init-hidden-map" lat="{{item.lat}}" lng="{{item.lng}}">
+                                            <div class="map" id="map-{{item.id}}" ></div>
+                                        </div>
+    
+    
+    
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                         
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                    <div class="card  w-100">
+                      <div class="card-body p-0 " >
+                      <div class="business-card" style="background-image: url({{ asset(item.coverImageURL) }});">
+                          
+                          
+
+                          
+                          {% if item.avgRating != null and  item.avgRating != 0 %}
+                          <div class="starts">
+                            <div class="solid-rating" rating="{{item.avgRating}}"></div>
+                          </div>
+                          {% endif %}
+
+                          
+      
+                          <div class="info-bloc" company="{{item.id}}">
+                          <div class="avatar" style="background-image: url({{ asset(item.logoURL) }});"></div>
+                          <div class="name">{{item.name}}</div>
+                          <div class="description text-muted">{{item.slogan}}</div>
+                          <div class="location text-muted"><i class="fas fa-map-marker-alt"></i> {{item.address}}</div>
+                          </div>
+      
+      
+                      </div>
+      
+      
+                      </div>
+                      <div class="card-footer card-footer border-0 bg-white">
+                      <div class="d-flex d-flex justify-content-between">
+                          <div>
+                          <div class="circle-green" style="background-color:{{item.listing.color}}">
+                                                        <i class="{{item.listing.icon}}"></i>
+                                                    </div>
+                                                    <div class="card-type">
+                                                        {{item.listing}}
+                                                    </div>
+                                 
+      
+                          </div>
+      
+                          <div>
+                          <div class="circle-grey">
+                              <i class="fas fa-search-plus"  data-bs-toggle="modal" data-bs-target="#zoom-{{item.id}}"></i>
+                          </div>
+                          {% if app.user != null %}
+                          <div class="circle-grey">
+                              <i class="far fa-heart book-mark-add" target="{{ item.id }}"></i>
+                          </div>
+                          {% endif %}
+                          
+                          </div>
+      
+      
+                      </div>
+                      </div>
+                  </div>
+                    </div>
+      
+            {% endfor %}
+                </div>
+
+       
+                
+            </div>
+
+            <div class="col-sm-3 p-0" id="map-bloc">
+                <div class="side-companies-card">
+                    <div class="map-toogler hidden">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div id="marketplace-map"></div>
+                </div>
+            </div>
+            
+        </div>
+         
+
+    </div>
+
+</div>
+
+<style>
+.mapboxgl-popup-content { 
+    background: transparent; 
+    padding: 0; 
+}
+
+.map-preview{
+    background-image: url(/assets/img/companies/6197c29e293bd.png);
+    height: 128px;
+    width: 200px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: end;
+    color: white;
+    padding: 8px;
+    font-size: 18px;
+    cursor:pointer
+}
+
+.map-preview-address{
+        font-size: 12px;
+}
+</style>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+       
+    <script>
+        
+        $(document).ready(function(){  
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYWZyazUwYWRtaW4iLCJhIjoiY2t2d2F2ZXJuYzRkYTMwczdoZTh5N3BzZiJ9.ev6y63e37s0_YkF-54EZgg';
+         
+            
+        var map = new mapboxgl.Map({
+            container: document.getElementById("marketplace-map"),
+            style: 'mapbox://styles/afrk50admin/ckxerlgpz2lsk15ph7vpg5zku',
+            zoom:2
+            
+        });
+
+
+        let companies = [];
+
+        {% for item in companiesMarkers %}
+            companies.push({'id':{{item.id}},'lng':{{item.lng}},'lat':{{item.lat}},'name':"{{item.name}}", 'logo':"{{item.logo}}", 'coverImageURL':"{{item.coverImageURL}}", 'address':"{{item.address}}"  });
+        {% endfor %}
+
+        console.log(companies);
+
+
+ 
+
+        
+
+        for (let i = 0; i < companies.length; i++) {
+            const tmp = companies[i];
+
+            const el = document.createElement('div');
+            el.setAttribute("lng",tmp.lng);
+            el.setAttribute("lat",tmp.lat);
+            
+            el.className = 'marker-company';
+            el.style.backgroundImage = 'url('+tmp.logo+')';
+
+
+
+            let popup =  new mapboxgl.Popup({offset:25})
+            .setLngLat([tmp.lng, tmp.lat])
+            .setHTML(`
+            <a href="/company/${tmp.id}"><div   class="map-preview" style="background-image: url(${tmp.coverImageURL})">
+                <p>${tmp.name} <br> 
+                    <span class="map-preview-address"><i class="fas fa-map-marker-alt"></i> ${tmp.address}  </span></p>
+                </p>
+            </div></a>
+            
+            `)
+            .addTo(map);
+
+            const marker = new mapboxgl.Marker(el).setLngLat([tmp.lng, tmp.lat]).setPopup(popup).addTo(map);
+
+             
+
+
+            
+
+        }
+
+      
+
+            
+        map.flyTo({
+        center: [34.5564298,9.469691]
+        });
+
+
+        function toogleMarketPLace(e){
+            e.preventDefault();
+            $("#listing-bloc").toggle();
+
+            $("#map-bloc").toggleClass('col-sm-3').toggleClass('col-sm-9');
+            $(".map-toogler").toggleClass('hidden');
+            
+            
+            
+             
+
+
+            map.resize()
+        }
+
+
+        $(".toggle-map-market-place").click(function(e){
+            toogleMarketPLace(e);
+        })
+ 
+        $(".map-toogler").click(function(e){
+            toogleMarketPLace(e);
+        })
+
+  
+        
+
+        })
+       
+    </script>
+
+{% endblock %}

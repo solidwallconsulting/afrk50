@@ -1,0 +1,420 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AFRK50 | My listing{% endblock %}
+
+{% block body %}
+
+
+
+
+{% if app.user.isBlocked == false %}
+
+
+
+
+        <div class="modal fade modal-delete-company" tabindex="-1" role="dialog" aria-labelledby="modal-delete-company" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content"> 
+               
+                    <div class="modal-body">
+                    <h5 class="modal-title">Are you sure you want to delete this listing ?</h5> 
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger confirm-delete-company">Delete</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    
+<div class="profile-quick-nav">
+{% include "components/profile-bar.html.twig" %}
+</div>
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                
+
+ 
+                    
+                    
+                   
+                    {% if app.user.lastBoughtPlanType != null %}
+                        {% if  app.user.lastBoughtPlanType.duration > 30 %}
+
+                            {% if leftDays < 60 %}
+                            <div class="alert alert-warning"> You have <strong>{{ leftDays  }} days</strong> left, think about updating your membership in order to continue using our system.  <a href="{{ path('plans_pricing') }}">upgrade my account</a></div>
+                            {% endif %}
+                                
+                        {% endif %}
+
+
+
+                        {% if  app.user.lastBoughtPlanType.duration <= 30 %}
+                                {% if leftDays <= 7 %}
+                                    <div class="alert alert-warning"> You have <strong>{{ leftDays  }} days</strong> left, think about updating your membership in order to continue using our system.  <a href="{{ path('plans_pricing') }}">upgrade my account</a></div>
+                                {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-warning">Use the 14 days trial to start actively marketing your services or products. <small class="text-muted"><strong>({{ leftDays  }} days left)</strong></small>  <a href="{{ path('plans_pricing') }}">Subscribe today</a>
+						</a></div>
+                    {% endif %} 
+                       
+                    {% if leftDays <= 0 %}
+                          <div class="alert alert-warning"> Your account has been expired. your listings are no longer visibile in our marketplace. <br/>
+                        think about updating your membership in order to continue using our system.
+
+                        <a href="{{ path('plans_pricing') }}">update membership</a></div>
+                    {% endif %}
+                
+            </div>
+        </div>
+            
+
+        <div class="row">
+            <div class="col-12">
+                <div class="heading-my-listing d-flex justify-content-between">
+                   <h1 class="custom-title"> Your Listings</h1>
+
+                   <!--<form action="" method="get" id="filter-form">
+                        <div class="quick-seach">
+                            <div class="form-group" style="width: 200px;">
+                                <select class="form-control-afrk" id="change-filter" name="filter">
+                                    <option {% if filterListing == '0' %} selected {% endif %}
+                                     value="0">All listings</option>
+                                    <option {% if filterListing == '1' %} selected {% endif %} value="1">Published</option>
+                                    <option {% if filterListing == '2' %} selected {% endif %} value="2">Pending Approval</option>
+                                    <option {% if filterListing == '3' %} selected {% endif %} value="3">Expired</option>
+                                    
+                                    
+                                </select>
+                            </div>
+                    </div>
+                   </form>-->
+                </div>
+            </div>
+        </div>
+ 
+        <div class="row mt-5">
+            <div class="col-sm-6 col-md-3">
+                <div class="highlight-box" style="background: #78aab9;">
+                    <h2>{{ published | length }}</h2>
+                    <p>Published</p>
+                    <i class="fas fa-window-maximize"></i>
+                </div>
+           </div>
+           <div class="col-sm-6 col-md-3" >
+                 <div class="highlight-box" style="background: #6095a5;">
+                     <h2>{{ pending | length }}</h2>
+                     <p>Pending Approval</p>
+                     <i class="fas fa-info-circle"></i>
+                 </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                 <div class="highlight-box" style="background: #3e7d91;">
+                     <h2>{{ waitingForPayment | length }}</h2>
+                     <p>Pending Payment</p>
+                     <i class="fas fa-info-circle"></i>
+                 </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                 <div class="highlight-box " style="    background: #174a5a;">
+                     <h2>{{ expried }}</h2>
+                     <p>Expired</p>
+                     <i class="fas fa-stopwatch"></i>
+                 </div>
+            </div>
+            
+        </div>
+
+
+
+        
+        <div class="modal fade modal-promotion" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content"> 
+                <div class="modal-body">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Promote Listing — <span id="tmp-lsiting-name"></span> </h5>
+
+
+                  {% for p in promotions %}
+                      <div class="card mb-2">
+                        <div class="card-body  promotion-card" id="{{p.id}}">
+                            <div class="d-flex">
+                                <div class="icon-promotion">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="promotions">
+                                    <p>
+                                        Promote your Listing
+                                        {{ p.price | format_currency('EUR') }} Promotion lasts for {{p.duration}} days
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                  {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal"  >Close</button>
+                    <button type="button" class="btn btn-primary" id="to-check-out" disabled>Promote</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+        <div class="modal fade modal-boost" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content"> 
+                <div class="modal-body">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Boost Listing — <span id="tmp-lsiting-name-boost"></span> </h5>
+
+
+                  {% for p in boosts %}
+                      <div class="card mb-2">
+                        <div class="card-body  boost-card" id="{{p.id}}">
+                            <div class="d-flex">
+                                <div class="icon-promotion">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="promotions">
+                                    <p>
+                                        Boost your Listing
+                                        {{ p.price | format_currency('EUR') }} Promotion lasts for {{p.duration}} days
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                  {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-boost"  >Close</button>
+                    <button type="button" class="btn btn-primary" id="to-check-out-boost" disabled>Boost</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+
+        
+
+        <div class="row mt-5">
+ 
+
+            {% for c in all %}
+                <div class="col-sm-6 col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center listing-card">
+                            <div class="info">{{c.listing.name}}</div>
+                            <img src="{{ asset(c.logoURL) }}" class="img-circle mt-5" height="90px" width="90px"  />
+                            <p>
+                                <strong>{{c.name}}</strong>
+                            </p> 
+                            <div class="d-flex justify-content-center">
+
+                            
+
+                             <p class="text-muted edit-company" style="margin-right: 15px;"> 
+                                    
+
+                                    <a class="text-muted" href="{{ path('company_route',{id:c.id}) }}"><i class="far fa-eye"></i><br>
+                                        View </a>
+                                </p>
+
+                                <p class="text-muted delete-company" style="margin-right: 15px;" company="{{ c.id }}"> 
+                                    <i class="far fa-trash-alt"></i><br>
+                                    Delete
+                                </p>
+                                <p class="text-muted edit-company"> 
+                                    
+
+                                    <a class="text-muted" href="{{ path('edit_listing_route',{id:c.id}) }}"><i class="fas fa-pencil-alt"></i><br>
+                                        Edit </a>
+                                </p>
+
+
+                                <p class="text-muted  "  style="margin-left: 10px;"> 
+                                    
+
+                                    <a class="text-muted promote-listing" href="#" listing-name="{{c.name}}"  id="{{c.id}}" ><i class="fas fa-chart-line"></i>
+                                        <br>
+                                        Promote 
+                                    </a>
+                                </p>
+                                <p class="text-muted  "  style="margin-left: 10px;"> 
+                                    
+
+                                    <a class="text-muted boost-listing" href="#" listing-name="{{c.name}}"  id="{{c.id}}" ><i class="fas fa-bolt"></i>
+                                        <br>
+                                        Boost 
+                                    </a>
+                                </p>
+
+                                
+                                
+
+
+                            </div>
+
+                            
+
+                            {% if leftDays > 0 %}
+                                <p class="text-muted">
+                            <small> <span> Created: {{ c.createdAt |date("M d, Y")  }}</span> <span> Expires after {{leftDays}} day(s)</span> </small>
+                            </p>    
+                            {% else %}
+                                <span class="badge bg-danger">expired</span>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% else %}
+        <div id="content" class="section-padding">
+    <div  data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+                <div class="alert alert-danger">
+                    You account has been blocked by AFRK50 support team.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+ 
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function(){
+            let selectedListing  = null;
+            let selectedPromotion  = null;
+            let selectedBoost = null;
+
+            var aboutToGetDeletedCompany = null;
+
+            
+            $(".promote-listing").click(function(e){
+                e.preventDefault();
+
+                selectedListing = $(this).attr('id');
+                $("#tmp-lsiting-name").html($(this).attr('listing-name'))
+                console.log(selectedListing);
+
+                $(".modal-promotion").modal('show');
+
+            })
+
+
+            $(".boost-listing").click(function(e){
+                e.preventDefault();
+
+                selectedListing = $(this).attr('id');
+                $("#tmp-lsiting-name-boost").html($(this).attr('listing-name'))
+                console.log(selectedListing);
+
+                $(".modal-boost").modal('show');
+
+            })
+
+
+
+
+            $(".close-modal-boost").click(function(e){  
+                $(".modal-boost").modal('hide'); 
+            })
+
+
+            $(".close-modal").click(function(e){  
+                $(".modal-promotion").modal('hide'); 
+            })
+
+            
+
+             $(".boost-card").click(function(e){  
+                $(".boost-card").removeClass('active'); 
+                selectedBoost = $(this).attr('id');
+
+                $(this).addClass('active');
+
+                $("#to-check-out-boost").removeAttr('disabled');
+            })
+
+            $(".promotion-card").click(function(e){  
+                $(".promotion-card").removeClass('active'); 
+                selectedPromotion = $(this).attr('id');
+
+                $(this).addClass('active');
+
+                $("#to-check-out").removeAttr('disabled');
+            })
+
+
+            $("#to-check-out").click(function(){
+
+                localStorage.setItem("listing",selectedListing);
+                localStorage.setItem("promotion",selectedPromotion); 
+
+                window.location="/checkout/"+selectedListing+'/'+selectedPromotion
+            })
+
+
+            $("#to-check-out-boost").click(function(){
+
+                localStorage.setItem("listing",selectedListing);
+                localStorage.setItem("boost",selectedBoost); 
+
+                window.location="/boost/checkout/"+selectedListing+'/'+selectedBoost
+            })
+
+
+
+            $(".delete-company").click(function(){
+                const companyID = $(this).attr("company");
+
+                aboutToGetDeletedCompany = companyID;
+
+
+                $(".modal-delete-company").modal("show");
+            })
+            
+
+            $(".confirm-delete-company").click(function(){ 
+
+                $(".modal-delete-company").modal("hide");
+
+                window.location="/account/delete-company/"+aboutToGetDeletedCompany;
+            })
+            
+        })
+
+
+
+
+    </script>
+{% endblock %}

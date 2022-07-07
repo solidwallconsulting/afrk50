@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ProInfo{% endblock %}
+
+{% block body %}
+    <h1>Edit ProInfo</h1>
+
+    {{ include('pro_info/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('pro_info_index') }}">back to list</a>
+
+    {{ include('pro_info/_delete_form.html.twig') }}
+{% endblock %}

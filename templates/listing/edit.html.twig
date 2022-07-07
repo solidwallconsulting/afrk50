@@ -1,0 +1,117 @@
+ 
+
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Edit listing</h4>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-secondary btn-sm" href="{{ path('category_index') }}">Back</a> 
+                        </div>
+
+                    </div>
+                    <div class="card-body" style="position: relative;">
+                          
+                         
+
+                        {{ include('listing/_form.html.twig', {'button_label': 'Edit'}) }}
+                        
+
+                        <hr>
+ 
+
+                        {{ include('listing/_delete_form.html.twig') }}
+                        
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 mt-3">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Listing details</h4>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-secondary btn-sm" href="{{ path('category_index') }}">Back</a> 
+                        </div>
+
+                    </div>
+                    <div class="card-body" style="position: relative;">
+                          
+                          
+                         {{ form_start(formListingAttributte) }}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    {{ form_label(formListingAttributte.listing) }}
+                                    {{ form_widget(formListingAttributte.listing) }}
+                                </div>
+                                <div class="col-sm-6">
+                                    {{ form_label(formListingAttributte.attribute) }}
+                                    {{ form_widget(formListingAttributte.attribute) }}
+                                </div>
+                                
+                            </div>
+                            <button class="btn btn-primary mt-3 ">{{ button_label|default('Add') }}</button>
+                        {{ form_end(formListingAttributte) }}
+
+                        <hr>
+
+                        <ul>
+                            
+                        </ul>
+
+                        <ol class="list-group list-group-numbered"> 
+                            {% for item in listing.listingAttributes %} 
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                <div class="fw-bold">{{ item.attribute }}</div>
+                                 
+                                </div>
+                                <form method="post" action="{{ path('listing_attributes_delete_from_listing', {'id': item.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                                    <button class="btn btn-sm btn-danger">Remove</button>
+                                </form>
+
+                            </li> 
+                            {% endfor %}
+                        </ol>
+
+                        
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+ 
+
+
+
+    {% endblock %}

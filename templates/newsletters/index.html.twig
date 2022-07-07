@@ -1,0 +1,67 @@
+ 
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+	<main class="main-content">
+		{% block topNav %}
+			{{ parent() }}
+		{% endblock %}
+
+		<div class="conatiner-fluid content-inner mt-n5 py-0">
+			<div class="row">
+
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between flex-wrap">
+							<div class="header-title">
+								<h4 class="card-title">Emails</h4>
+							</div>
+
+                            <!--<a href="{{ path('partners_new') }}" class="btn btn-primary">Add</a>-->
+
+
+						</div>
+						<div class="card-body w-100">
+
+    <table class="table datatable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Date</th>
+                
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for newsletter in newsletters %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ newsletter.email }}</td>
+                <td>{{ newsletter.name }}</td>
+                <td>{{ newsletter.date != null ? newsletter.date |date('Y-m-d H:i:s')   : ''  }}</td>
+                
+                <td>
+                   
+                     
+                </td>
+            </tr>
+            
+
+        {% endfor %}
+        </tbody>
+    </table>			 
+
+						</div>
+
+
+					</div>
+
+				</div>
+
+
+			{% endblock %}

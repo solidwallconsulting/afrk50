@@ -1,0 +1,483 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AFRK50 |
+	{{app.user.firstname |title}}
+	{{app.user.lastname |title}}
+{% endblock %}
+
+
+{% block stylesheets %}
+{{ parent() }}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+
+
+	{% if app.user.isBlocked == false %}
+
+		<div id="content" class="section-padding">
+			<div class="container">
+
+
+				<div class="row">
+					<div class="col-12">
+                    
+                    
+                        
+                    {% if app.user.lastBoughtPlanType != null %}
+                        {% if  app.user.lastBoughtPlanType.duration > 30 %}
+
+                            {% if leftDays < 60 %}
+                            <div class="alert alert-warning"> You have <strong>{{ leftDays  }} days</strong> left, think about updating your membership in order to continue using our system.  <a href="{{ path('plans_pricing') }}">upgrade my account</a></div>
+                            {% endif %}
+                                
+                        {% endif %}
+
+
+
+                        {% if  app.user.lastBoughtPlanType.duration <= 30 %}
+                                {% if leftDays <= 7 %}
+                                    <div class="alert alert-warning"> You have <strong>{{ leftDays  }} days</strong> left, think about updating your membership in order to continue using our system.  <a href="{{ path('plans_pricing') }}">upgrade my account</a></div>
+                                {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-warning">
+						Use the 14 days trial to start actively marketing your services or products. <small class="text-muted"><strong>({{ leftDays  }} days left)</strong></small>  <a href="{{ path('plans_pricing') }}">Subscribe today</a>
+						
+ 						</div>
+                    {% endif %} 
+                       
+                    {% if leftDays <= 0 %}
+                          <div class="alert alert-warning"> Your account has been expired. your listings are no longer visibile in our marketplace. <br/>
+                        think about updating your membership in order to continue using our system.
+
+                        <a href="{{ path('plans_pricing') }}">update membership</a></div>
+                    {% endif %}
+                
+					</div>
+				</div>
+
+
+				<div class="form-error-bloc" >
+				 {{ form_errors(studentInfoForm.studentPass) }}  
+
+				{{ form_errors(jobSeakerForm.resumeFILE) }}  
+				
+				{{ form_errors(proInfoForm.resumeFILE)  }} 
+				
+				</div>
+
+
+				
+
+
+
+
+				{% if app.user.isLeagalEntity == false %}
+					{% if missingProfileInfo == true %}
+						<div class="alert alert-warning">
+							Your profile details are missing, please complete the required informations in order to get optimal experience using our platform
+						</div>
+
+					{% endif %}
+				{% endif %}
+				
+				
+
+				{% if app.user.isVerified == false %}
+					<div class="alert alert-warning">
+						This account is not verified, click on <a href="{{ path('verification_mail_route',{email:app.user.email}) }}">this link</a> to continue your account verification
+					</div>
+
+				{% endif %}
+
+
+				{% if app.request.query.get('success') != null %}
+					<div class="alert alert-success">{{app.request.query.get('success') }}</div>
+
+				{% endif %}
+
+				<div class="row mb-3">
+
+					{% if errMessage != '' %}
+						<div class="alert alert-danger">{{errMessage}}</div>
+					{% endif %}
+
+					{% if succMessage != '' %}
+						<div class="alert alert-success">{{succMessage}}</div>
+					{% endif %}
+
+				</div>
+				<div class="row">
+					<div class="col-sm-12 col-md-4 col-lg-3 page-sidebar">
+
+						<aside>
+							<div class="sidebar-box">
+
+
+								<div class="user">
+
+
+									<div class="usercontent">
+
+										<form method="POST" action="{{ path('update_profile_picture') }}" enctype="multipart/form-data" id="update-photo-form">
+											<input type="hidden" name="photo-user-update" id="photo-update-trigger" value="null">
+											<input type="file" name="photo" id="photo" style="visibility:hidden;">
+
+											<div class="avatar-user  m-auto pb-3">
+												<div style="background-image : url({{app.user.photoURL}})" class="profile-picture"></div>
+												<i class='fas fa-camera update-profile-photo'></i>
+
+											</div>
+										</form>
+
+
+										<p class="text-center">
+											<strong>{{app.user.firstname|title}}
+												{{app.user.lastname|title}}</strong>
+											 
+											{% if user.category != null %}<br>
+											{% if user.category.id == 1 %}  <span class="badge bg-info"><small>Student</small></span>  {% endif %}
+											{% if user.category.id == 2 %}  <span class="badge bg-info"><small>Job seaker</small></span></strong>  {% endif %}
+											{% if user.category.id == 3 %} <span class="badge bg-info"><small>Professional</small></span></strong>   {% endif %}
+											
+										{% endif %}
+											<br>
+
+											<span class="text-muted">{{app.user.email}}</span><br>
+
+											<span><a href="{{ path('user_route',{id:app.user.id}) }}">View profile</a></span>
+										</p>
+
+
+									</div>
+								</div>
+
+
+								<nav class="navdashboard mt-3 mb-5">
+									<ul class="list-group side-menu-profile-block">
+
+										{% if app.user.roles[0] == "ROLE_ADMIN" %}
+											<li class="list-group-item ">
+												<a class=" " href="{{ path('web_master_route') }}">
+													<i class="lni-dashboard"></i>
+													<span>Web master
+													</span>
+												</a>
+											</li>
+										{% endif %}
+
+
+										<li class="list-group-item profile-side-menu active-item" data-target="1">
+											<i class="fas fa-user first"></i>
+											<a class="" href="#">
+												<span>Account
+												</span>
+											</a>
+											<i class="fas fa-chevron-right last"></i>
+										</li>
+
+										<li class="list-group-item profile-side-menu" data-target="2">
+											<i class="fas fa-lock first"></i>
+											<a class="" href="#">
+												<span>Change Password
+												</span>
+											</a>
+											<i class="fas fa-chevron-right last"></i>
+										</li>
+
+										<li class="list-group-item profile-side-menu" data-target="3">
+											<i class="fas fa-star-of-life first"></i>
+											<a class="" href="#">
+												<span>Privacy
+												</span>
+											</a>
+											<i class="fas fa-chevron-right last"></i>
+										</li>
+
+
+										<li class="list-group-item profile-side-menu">
+											<i class="far fa-trash-alt  first"></i>
+											<a href="/logout" class="">
+												<span>Delete account</span>
+											</a>
+
+											<i class="fas fa-chevron-right  last"></i>
+
+										</li>
+									</ul>
+								</nav>
+							</div>
+
+						</aside>
+
+					</div>
+					<div class="col-sm-12 col-md-8 col-lg-9">
+						<div class="row page-content">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+
+								<div class="bloc-side-profile account-target bloc-1">
+
+
+									<div class="um-account-heading">
+										<i class="fas fa-user first mr-5"></i>
+										Account
+									</div>
+
+									{{ form_start(profileForm) }}
+									{{ form_widget(profileForm) }}
+									<button class="btn btn-primary mt-3">{{ button_label|default('Update Account') }}</button>
+									{{ form_end(profileForm) }}
+
+									<hr>
+
+									
+									
+									{% if user.category %}
+
+									<div class="um-account-heading">
+										<i class="fas fa-user first mr-5"></i>
+										Details :  
+									</div>
+
+									
+									{% if user.category.id == 1 %}
+										{{ form_start(studentInfoForm) }}
+
+ 
+											 {{ form_errors(studentInfoForm.studentPass) }} 
+											 
+
+
+											{{ form_label(studentInfoForm.studentPass) }}
+												{{ form_widget(studentInfoForm.studentPass) }}
+
+												
+
+												{% if user.studentInfo != null %}
+													{% if user.studentInfo.studentPass != null %}
+														<p>
+															1 file uploaded. <a href="{{user.studentInfo.studentPass }}">download</a>
+														</p>
+													{% endif %}
+												{% endif %}
+												
+											
+
+
+
+
+											{{ form_widget(studentInfoForm) }}
+											<button class="btn btn-primary mt-3">{{ button_label|default('Update info') }}</button>
+										{{ form_end(studentInfoForm) }}
+									{% endif %}
+									
+									{% if user.category.id == 2 %}
+										{{ form_start(jobSeakerForm) }}
+											 
+											 {{ form_errors(jobSeakerForm.resumeFILE) }} 
+											  
+											
+											{{ form_label(jobSeakerForm.resumeFILE) }}
+											{{ form_widget(jobSeakerForm.resumeFILE) }}
+
+											
+
+											{% if user.jobSeekerInfo != null %}
+												{% if user.jobSeekerInfo.resumeFILE != null %}
+												<p>
+													1 file uploaded. <a href="{{user.jobSeekerInfo.resumeFILE }}">download</a>
+												</p>
+												{% endif %}
+											{% endif %}
+											
+											
+
+											{{ form_widget(jobSeakerForm) }}
+
+											<button class="btn btn-primary mt-3">{{ button_label|default('Update info') }}</button>
+										{{ form_end(jobSeakerForm) }}
+									{% endif %}
+
+									{% if user.category.id == 3 %}
+										{{ form_start(proInfoForm) }}
+
+
+										 	 
+ 
+											
+											  
+
+											{{ form_label(proInfoForm.resumeFILE) }}
+											{{ form_widget(proInfoForm.resumeFILE) }}
+											
+
+											
+
+											{% if user.proInfo != null  %}
+												{% if user.proInfo.resumeFILE != null %}
+												<p>
+													1 file uploaded. <a href="{{user.proInfo.resumeFILE }}">download</a>
+												</p>
+												{% endif %}
+											{% endif %}
+											
+
+
+
+											{{ form_widget(proInfoForm) }}
+											<button class="btn btn-primary mt-3">{{ button_label|default('Update info') }}</button>
+										{{ form_end(proInfoForm) }}
+									{% endif %}
+									{% endif %}
+									
+									
+
+
+
+
+
+
+								</div>
+								<div class="bloc-side-profile account-target bloc-2" style="display: none;">
+
+
+									<div class="um-account-heading">
+										<i class="fas fa-lock first mr-5"></i>
+										Change Password
+									</div>
+
+
+									<div>
+										<form action="" method="post">
+											<input type="hidden" name="update-password" value="update-password">
+											<div class="form-group ">
+												<label for="user_firstname" class="required">Current password</label>
+												<input type="text" name="current-password" required="required" class="form-control-afrk mb-3" placeholder="">
+											</div>
+											<div class="form-group">
+												<label for="user_firstname" class="required">New password</label>
+												<input type="text" name="new-password" required="required" class="form-control-afrk mb-3" placeholder="">
+											</div>
+											<div class="form-group">
+												<label for="user_firstname" class="required">Confirm password</label>
+												<input type="text" name="confirm-password" required="required" class="form-control-afrk mb-3" placeholder="">
+											</div>
+											<div class="form-group">
+												<button class="btn btn-primary" type="submit">Update Password</button>
+											</div>
+
+
+										</form>
+
+
+									</div>
+
+
+								</div>
+								<div class="bloc-side-profile account-target bloc-3 " style="display: none;">
+
+
+									<div class="um-account-heading">
+										<i class="fas fa-star-of-life first mr-5"></i>
+										Privacy
+									</div>
+
+
+									<div>
+										<form name="user" method="post">
+                                                 <input type="hidden" name="privacy" value="nqlkdqkjdqldjlkjd.sjdhqldjqhsgdjsdsudshsjdhskjdhskdj" />
+                                                    <div class="form-group">
+                                                        <label for="user_privacy" class="required">Profile Privacy</label>
+                                                        <select id="user_privacy" name="user_privacy" class="form-control-afrk mb-3 bg-white">
+                                                            <option {% if app.user.privacy ==0 %} selected {% endif %} value="0">Everyone</option>
+                                                            <option {% if app.user.privacy ==1 %} selected {% endif %} value="1">Only me</option>
+                                                        </select>
+                                                    </div> 
+											<button class="btn btn-primary mt-3">Update privacy</button>
+										</form>
+
+
+									</div>
+
+
+
+                                    <div class="row mt-3">
+                                        <form method="post">
+                                            <input type="hidden" name="download-data" value="nqlkdqkjdqldjlkjd.sjdhqldjqhsgdjsdsudshsjdhskjdhskdj" />
+                                            <div class="form-group mb-3">
+                                                <label for="">Download your data</label>
+                                                <p class="text-muted">Enter your current password to confirm a new export of your personal data.</p>
+                                                <input type="text" name="password" class="form-control-afrk mb-3 bg-white" placeholder="Password" >
+                                                <p class="text-muted">
+                                                    A confirmation email has been sent to your email. Click the link within the email to confirm your export request.
+                                                </p>
+                                            </div>
+                                            <div class="form-group">
+                                                 <button type="submit" class="btn btn-sm btn-info">Request data</button>
+                                            </div>
+                                        </form>
+                                        
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <form method="post">
+                                            <input type="hidden" name="erase-data" value="nqlkdqkjdqldjlkjd.sjdhqldjqhsgdjsdsudshsjdhskjdhskdj" />
+                                            <div class="form-group">
+                                                <label for="">Erase of your data</label>
+                                                <p class="text-muted">Enter your current password to confirm the erasure of your personal data.</p>
+                                                <input type="text" name="password" class="form-control-afrk mb-3 bg-white" placeholder="Password" >
+                                                <button type="submit" class="btn btn-sm btn-danger">Request data erase</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+								</div>
+
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	{% else %}
+		<div id="content" class="section-padding">
+			<div data-aos="fade-up" class="row">
+				<div class="col-sm-12 col-md-7 m-auto">
+					<div class="container">
+						<div class="alert alert-danger">
+							You account has been blocked by AFRK50 support team.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	{% endif %}
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
+<script>
+	$(document).ready(function(){
+		$(".multiple-select2").select2();
+	})
+</script>
+
+{% endblock %}

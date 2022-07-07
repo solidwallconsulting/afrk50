@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AFRK50 | My listing{% endblock %}
+
+{% block body %}
+
+
+{% if app.user.isBlocked == false %}
+    
+<div class="profile-quick-nav">
+    {% include "components/profile-bar.html.twig" %}
+</div>
+
+<div id="content" class="section-padding">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                    
+                   
+                    {% if app.user.lastBoughtPlanType != null %}
+                        {% if  app.user.lastBoughtPlanType.duration > 30 %}
+
+                            {% if leftDays < 60 %}
+                            <div class="alert alert-warning"> You have <strong>{{ leftDays  }} days</strong> left, think about updating your membership in order to continue using our system.  <a href="{{ path('plans_pricing') }}">upgrade my account</a></div>
+                            {% endif %}
+                                
+                        {% endif %}
+
+
+
+                        {% if  app.user.lastBoughtPlanType.duration <= 30 %}
+                                {% if leftDays <= 7 %}
+                                    <div class="alert alert-warning"> You have <strong>{{ leftDays  }} days</strong> left, think about updating your membership in order to continue using our system.  <a href="{{ path('plans_pricing') }}">upgrade my account</a></div>
+                                {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-warning">Use the 14 days trial to start actively marketing your services or products. <small class="text-muted"><strong>({{ leftDays  }} days left)</strong></small>  <a href="{{ path('plans_pricing') }}">Subscribe today</a>
+						</a></div>
+                    {% endif %} 
+                       
+                    {% if leftDays <= 0 %}
+                          <div class="alert alert-warning"> Your account has been expired. your listings are no longer visibile in our marketplace. <br/>
+                        think about updating your membership in order to continue using our system.
+
+                        <a href="{{ path('plans_pricing') }}">update membership</a></div>
+                    {% endif %}
+            </div>
+        </div>
+            
+
+        <div class="row">
+            <div class="col-12">
+                <div class="heading-my-listing d-flex justify-content-between">
+                   <h1 class="custom-title"> Bookmarks</h1>
+
+                   
+                </div>
+            </div>
+        </div>
+ 
+
+        <div class="row mt-5">
+
+            {% for c in app.user.bookMarks %}
+                <div class="col-sm-6 col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body text-center listing-card">
+                            <div class="info">{{c.company.listing.name}}</div>
+                            <img src="{{ asset(c.company.logoURL) }}" class="img-circle mt-5" height="90px" width="90px"  />
+                            <p class="mt-3">
+                                <strong><a href="{{path('company_route',{id:c.company.id})}}"> {{c.company.name}}</a> </strong>
+                            </p> 
+                            <div class="d-flex justify-content-center">
+                                <p class="text-muted delete-company" style="margin-right: 15px;"> 
+                                    <a href="{{ path('remove_book_mark',{id:c.id}) }}" class="text-center text-danger">
+                                        <i class="far fa-trash-alt"></i><br>
+                                    remove
+                                    </a>
+                                </p>
+                               
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% else %}
+        <div id="content" class="section-padding">
+    <div  data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+                <div class="alert alert-danger">
+                    You account has been blocked by AFRK50 support team.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+ 
+
+
+
+{% endblock %}

@@ -1,0 +1,290 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}AFRK50 | Inbox{% endblock %}
+
+{% block body %}
+
+
+{% if app.user.isBlocked == false %}
+
+<div class="modal fade modal-message" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content"> 
+               
+                <div class="modal-body">
+                  <h5 class="modal-title">Direct message</h5>
+
+                  <textarea name="message" id="message-box" placeholder="type in your message..." ></textarea>
+                  
+
+                  <div class="d-flex justify-content-end">
+                    <button id="send-direct-message-btn"> send</button>
+                  </div>
+
+                  <div class="alerts mt-3" id="results-direct-message">
+
+                  </div>
+
+                  
+
+                  
+
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .ck-placeholder{
+                height: 250px
+            }
+            .ck-content{
+                 height: 250px
+            }
+        </style>
+
+<div id="content" class="section-padding">
+    <div data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+
+                 <div class="card">
+                     <div class="card-body">
+                         <h3>Inbox</h3>
+                         <hr>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                
+                                <ol class="list-group ">
+                                    
+                                    {% for d in myMessages %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-start c-pointer  open-chat" id-chat="{{d.id}}">
+                                            <div class="ms-2 me-auto">
+                                                <div {% if d.vue == 0 %}
+                                                    class="fw-bold"
+                                                {% else %}
+                                                    class=""
+                                                {% endif %}>{{d.sender.firstname}} {{d.sender.lastname}}</div>
+                                                <small  {% if d.vue == 0 %}
+                                                    class="text-muted fw-bold"
+                                                {% else %}
+                                                    class="text-muted  "
+                                                {% endif %}>{{ d.sendDate|date("m/d/Y g:ia") }}</small>
+                                            </div> 
+                                        </li>     
+                                    {% endfor %} 
+
+                                  </ol>
+                            </div>
+                            <div class="col-sm-8">
+                                <p id="isLoading-message" style="display:none" class="text-center ">Please wait...</p>
+
+                                <div class="msg-view" style="display:none">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                     
+                                        <h3 id="content-title"></h3> 
+                                    </div>
+                                    <button class="btn btn-sm btn-primary send-msg-btn">reply</button>
+                                </div>
+
+                                <p><small id="content-date"></small></p>
+
+                                <hr/>
+
+                                <input type="hidden" id="content-id" />
+                                <div id="content-msg"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% else %}
+
+<div id="content" class="section-padding">
+    <div data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+                <div class="alert alert-danger">
+                    You account has been blocked by AFRK50 support team.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+
+{% endblock %}
+
+
+
+
+  {% block javascripts %}
+    {{ parent() }}
+           <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+
+  
+
+    <script>
+
+
+
+
+        $(document).ready(function(){
+            let initedZONE = false;
+
+            
+
+            $(".report-listing-btn").click(function(e){
+                e.preventDefault();
+                $(".modal-report").modal("show");
+            })
+
+
+            $(".send-msg-btn").click(function(e){
+                e.preventDefault();
+                $(".modal-message").modal("show");
+                
+                if( initedZONE === false ){
+                    ClassicEditor
+                    .create( document.getElementById( 'message-box' ) )
+                    .catch( error => {
+                        console.error( error );
+                    } );
+
+                    initedZONE = true;
+                }
+
+                setTimeout(() => {
+                    $("#message-box").focus();
+                    
+
+                }, 2000);
+            })
+
+
+
+            $("#send-direct-message-btn").click(function(){
+                const message = $(".ck-content").html();
+                const targetname = $("#content-title").html();
+                const idTarget = $("#content-id").val();
+                
+
+                const url = '/account/send-message/'+ idTarget;
+
+                $(this).attr("disabled","disabled");
+                $(this).text("Sending...");
+
+                $("#results-direct-message").html('');
+
+
+
+                    const data = { content:message };
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data, 
+                    }).done(function(res) {
+                        console.log(res)
+
+                        if( res.success === true ){
+                            $("#results-direct-message").html(`
+                                <div class="alert alert-success">
+                                    Your message is successfully sent to ${targetname}
+                                </div>
+                            `); 
+
+                            setTimeout(() => {
+                                $(".modal-message").modal("hide");
+                                $("#results-direct-message").html('');
+                            }, 2000);
+
+                        }else{
+                            $("#results-direct-message").html(`
+                                <div class="alert alert-danger">
+                                   Something went wrong while sending your message.
+                                </div>
+                            `);
+
+                        }
+                    })
+                    .fail(function(err) {
+                         $("#results-direct-message").html(`
+                                <div class="alert alert-danger">
+                                   Something went wrong while sending your message.
+                                </div>
+                            `);
+
+                    })
+                    .always(function() {
+                        $("#send-direct-message-btn").removeAttr("disabled");
+                        $("#send-direct-message-btn").text("send");
+                        $(".ck-content").html('')
+                    }); 
+            })
+
+
+
+
+            // *************************************************************
+
+            let msgLoading = $("#isLoading-message");
+
+
+            $(".open-chat").click(function(){
+                $(".msg-view").hide();
+                let idChat = $(this).attr('id-chat');
+                
+                msgLoading.slideDown('fast');
+                $.ajax({
+                        type: "GET",
+                        url: '/account/fetch-message/'+idChat, 
+                    }).done(function(res) {
+                        console.log(res)
+
+                        $("#content-msg").html(res.content);
+                        $("#content-title").html(res.fullname);
+                        $("#content-date").html(res.date);
+                        $("#content-id").val(res.id_sender);
+
+                        
+
+                        
+                        $(".msg-view").slideDown();
+ 
+                    })
+                    .fail(function(err) {
+                          
+
+                    })
+                    .always(function() {
+                         msgLoading.slideUp('fast');
+                    }); 
+
+            })
+
+
+
+            
+
+            
+        })
+    </script>
+
+{% endblock %}

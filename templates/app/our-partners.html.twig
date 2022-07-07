@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About - AFRK50 {% endblock %}
+
+{% block body %}
+ 
+
+<div id="content" class=" ">
+    <div class="container-fluid p-0">
+         <div class="d-flex w-100 page-cover"   style="min-height: 45vh;background-image: url({{asset('/assets/img/about-us-header-bg.jpg')}});">
+
+            <div class="page-title">OUR PARTNERS</div>
+         </div>
+
+
+         <div class=" custom-page-content">
+            <section class="bg-white pt-5 pb-5">
+                <div class="container">
+                    <div class="widget-bloc">
+                        <div class="lets-w-top">Meet our amazing</div>
+                        <h2 class="how-it-works-h2">PARTNERS</h2>
+                        <p>Interested to partner with us? </p>
+                  
+                        <button class="btn btn-sm btn-primary read-more-btn">
+                          TELL US MORE
+                        </button>
+                  
+                      </div>
+                  
+                  
+                      <div class="list-of-partners owl-carousel owl-carousel-partners">
+                       
+                  
+                        {% for item in partners %}
+                           <div class="partner">
+                          <img src="{{item.logoURL}}" alt="">
+                        </div>
+                        {% endfor %}
+                       
+                  
+                  
+                      </div>
+                </div>
+            </section>
+    
+         </div> 
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+ 

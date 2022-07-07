@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobSeekerInfo{% endblock %}
+
+{% block body %}
+    <h1>JobSeekerInfo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ job_seeker_info.id }}</td>
+            </tr>
+            <tr>
+                <th>AreasOfExperience</th>
+                <td>{{ job_seeker_info.areasOfExperience }}</td>
+            </tr>
+            <tr>
+                <th>YearsOfExperience</th>
+                <td>{{ job_seeker_info.yearsOfExperience }}</td>
+            </tr>
+            <tr>
+                <th>AreasOfIntrests</th>
+                <td>{{ job_seeker_info.areasOfIntrests ? job_seeker_info.areasOfIntrests|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ResumeFILE</th>
+                <td>{{ job_seeker_info.resumeFILE }}</td>
+            </tr>
+            <tr>
+                <th>MoreInfo</th>
+                <td>{{ job_seeker_info.moreInfo }}</td>
+            </tr>
+            <tr>
+                <th>SocialLink</th>
+                <td>{{ job_seeker_info.socialLink }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('job_seeker_info_index') }}">back to list</a>
+
+    <a href="{{ path('job_seeker_info_edit', {'id': job_seeker_info.id}) }}">edit</a>
+
+    {{ include('job_seeker_info/_delete_form.html.twig') }}
+{% endblock %}

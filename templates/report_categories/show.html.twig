@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ReportCategories{% endblock %}
+
+{% block body %}
+    <h1>ReportCategories</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ report_category.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ report_category.title }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('report_categories_index') }}">back to list</a>
+
+    <a href="{{ path('report_categories_edit', {'id': report_category.id}) }}">edit</a>
+
+    {{ include('report_categories/_delete_form.html.twig') }}
+{% endblock %}

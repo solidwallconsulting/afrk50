@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ListingReports{% endblock %}
+
+{% block body %}
+    <h1>Create new ListingReports</h1>
+
+    {{ include('listing_reports/_form.html.twig') }}
+
+    <a href="{{ path('listing_reports_index') }}">back to list</a>
+{% endblock %}

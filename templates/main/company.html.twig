@@ -1,0 +1,814 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AFRK50 | {{company.name}}{% endblock %}
+
+
+
+
+
+
+{% block body %}
+
+        <style>
+            .ck-placeholder{
+                height: 250px
+            }
+            .ck-content{
+                 height: 250px
+            }
+        </style>
+
+
+        
+
+        <div class="modal fade modal-message" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content"> 
+               
+                <div class="modal-body">
+                  <h5 class="modal-title">Direct message</h5>
+
+                  <textarea name="message" id="message-box" placeholder="type in your message..." ></textarea>
+                  
+
+                  <div class="d-flex justify-content-end">
+                    <button id="send-direct-message-btn"> send</button>
+                  </div>
+
+                  <div class="alerts mt-3" id="results-direct-message">
+
+                  </div>
+
+                  
+
+                  
+
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="modal fade modal-report" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content"> 
+                {{ form_start(listingReportForm) }}
+                
+                <div class="modal-body">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Report</h5>
+                  <p>In order to help us improve our community, please let us know what's seams to be wrong.</p>                
+
+                    {{ form_widget(listingReportForm) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" >Report</button>
+                </div>
+
+                {{ form_end(listingReportForm) }}
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+<div class="top-section-cover" style="background-image: url({{company.coverImageURL}});" >
+    <div class="details-section d-flex ">
+        <div class="avatar" style="background-image: url({{company.logoURL}});">
+
+        </div>
+
+        <div class="listing-basic-info">
+            <h3 class="company-details-name">{{company.name}} 
+            
+            {% if app.user  != null %}
+
+                {% if app.user.id == company.user.id %}
+                    <a href="{{ path('edit_listing_route',{id:company.id}) }}"><i  class="fas fa-pencil-alt text-muted" style="font-size: 18px;"></i></a>
+                {% endif %} </h3>
+
+            {% endif %} 
+            <p class="company-slogan">{{company.slogan}}</p>
+        </div>
+    </div>
+</div>
+ 
+<div class="profile-company-nav">
+    <ul class="nav justify-content-center"> 
+        <li>
+            <a class="m-auto company-nav-id active" href="#content">Profile</a>
+        </li>
+        <li>
+            <a class="m-auto company-nav-id" href="#details">Details</a>
+        </li> 
+
+        <li>
+            <a class="m-auto company-nav-id" id="reviews-tab" href="#reviews">Reviews <span class="badge bg-info" style="margin-left: 10px;">{{company.ratings | length}}</span> </a>
+        </li>
+
+    </ul>
+</div>
+
+
+{% if message != '' %}
+<div class="container mt-3">
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+</div>
+{% endif %}
+
+<div id="content" class="section-padding company-section-tab">
+    <div class="container">
+
+        <div class="quick-listing-actions">
+            <ul class="nav justify-content-center"> 
+                <li>
+                    <a class="m-auto active" href="https://www.google.com/maps/@{{company.lat}},{{company.lng}},16z">
+                        <i class="fas fa-map-marker-alt"></i> <span>Get directions</span>
+                    </a>
+                </li>  
+                {% if app.user  != null %}
+                    {% if app.user.id != company.user.id %}
+                        <li>
+                            <a class="m-auto active" href="{{ path('new_bookmark_index',{id:company.id}) }}">
+                                <i class="fas fa-bookmark  "  ></i> <span>Bookmark</span>
+                            </a>
+                        </li> 
+                    {% endif %}
+                {% endif %}
+
+                <li>
+                    <a class="m-auto active" href="#">
+                        <i class="fas fa-share-alt"></i> <span>Share</span>
+                    </a>
+                </li> 
+                
+                {% if app.user  != null %}
+                    {% if app.user.id != company.user.id %}
+                        <li>
+                            <a class="m-auto active leave-a-review-button" href="#">
+                                <i class="fas fa-comment-dots"></i> <span>Leave a review</span>
+                            </a>
+                        </li> 
+                    {% endif %}
+                {% endif %}
+                
+                
+                <li>
+                    <a class="m-auto active report-listing-btn" href="#">
+                        <i class="fas fa-info-circle"></i> <span>Report</span>
+                    </a>
+                </li> 
+                
+
+                {% if app.user  != null %}
+                    {% if app.user.id != company.user.id %}
+                        <li>
+                            <a class="m-auto active send-msg-btn" href="#">
+                                <i class="fas fa-inbox"></i> <span>Direct message</span>
+                            </a>
+                        </li> 
+                    {% endif %}
+                {% endif %}
+                
+                {% if app.user  != null %}
+                    {% if app.user.id != company.user.id %}
+                        <li>
+                            <a class="m-auto active " href="https://api.whatsapp.com/send?phone={{company.user.phone}}">
+                                <i class="fab fa-whatsapp"></i> <span>WhatsApp number</span>
+                            </a>
+                        </li> 
+                    {% endif %}
+                {% endif %}
+                
+
+                
+                
+                
+                
+
+            </ul>
+        </div>
+        
+
+
+        <div class="row mt-5">
+
+            <div class="col-md-6 col-sm-12">
+                <div class="row div col-sm-12">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex ">
+                                <i class="fas fa-bars side-icon"></i>  <h5 class="title-style-1">Description</h5> 
+                            </div>
+                            <div class="body">
+                                <p class="text-muted">{{company.description | raw}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row div col-sm-12 mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex ">
+                                <i class="fas fa-map side-icon"></i>  <h5 class="title-style-1">Location</h5> 
+                            </div>
+                            <div class="body">
+                                <div id="map" style="height:300px"></div>
+
+                                <div class="d-flex justify-content-center mt-3">
+                                    <p class="text-muted" style="margin-right: 15px;">{{ company.address }}</p>
+
+                                    <a class="get-diretion-link" href="https://www.google.com/maps/@{{company.lat}},{{company.lng}},16z" >Get Direction</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% if company.socialMedia | length != 0 %}
+                <div class="row div col-sm-12 mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                <i class="fas fa-map side-icon"></i>  <h5 class="title-style-1">Follow us</h5> 
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    {% for s in company.socialMedia %}
+                                        <div class="col-md-4 col-sm-6 mb-3">
+                                            <div class="company-social-media">
+                                                <a href="{{s.value}}">
+
+
+ 
+
+
+
+                                                    <i 
+                                                    
+                                                    {% if s.name=="Facebook" %}class="fab fa-facebook-f "{% endif %}
+                                                    {% if s.name=="Twitter" %}class="fab fa-twitter"{% endif %} 
+                                                    {% if s.name=="Instagram" %}class="fab fa-instagram "{% endif %}
+                                                    {% if s.name=="YouTube" %}class="fab fa-instagram "{% endif %}
+                                                    {% if s.name=="Snapchat" %}class="fab fa-snapchat "{% endif %}
+                                                    {% if s.name=="Tumblr" %}class="fab fa-tumblr "{% endif %}
+                                                    {% if s.name=="Reddit" %}class="fab fa-reddit "{% endif %}
+                                                    {% if s.name=="LinkedIn" %}class="fab fa-linkedIn "{% endif %}
+                                                    {% if s.name=="Pinterest" %}class="fab fa-pinterest "{% endif %}
+                                                    {% if s.name=="VKontakte" %}class="fab fa-vk "{% endif %}
+                                                    
+                                                    ></i> <span>{{s.name}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                
+                <div class="row div col-sm-12 mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                 <i class="fas fa-bars side-icon"></i>  <h5 class="title-style-1">Email</h5> 
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                   <a href="mailto:{{company.email}}">{{company.email}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row div col-sm-12 mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                 <i class="fas fa-bars side-icon"></i>  <h5 class="title-style-1">Website</h5> 
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                   <a href="{{company.website}}">{{company.website}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+
+
+            </div>
+            <div class="col-md-6 col-sm-12">
+
+
+                
+
+                {% if company.videoURL != null %}
+                <div class="row div col-sm-12  ">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                <i class="fas fa-video side-icon"></i>  <h5 class="title-style-1">Video</h5> 
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                   {{ company.videoURL | raw }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                
+
+                <div class="row div col-sm-12  mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                <i class="fas fa-th-large side-icon"></i>  <h5 class="title-style-1">Categories</h5> 
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    
+                                    {% for cat in company.companyCategories %}
+                                        <div class="col-md-6 col-sm-6 mb-3">
+                                            <div class="company-social-media">
+                                                <a href="#">
+                                                    <i style="    color: #fff;background-color: {{cat.category.listing.color}}; 
+                                                    " class="{{cat.category.listing.icon}}"></i> <span>{{cat.category.name}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row div col-sm-12  mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex mb-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fas fa-stopwatch side-icon"></i>  <h5 class="title-style-1">Working hours</h5> 
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                        
+                                      <div class="collapse" id="collapseExample">
+                                         
+                                            <ul class="list-group">
+                                                
+                                                {% for w in company.companyWorkingDays %}
+                                                    <li class="list-group-item">{{w.day}} / {{w.value}}</li> 
+                                                {% endfor %}
+                                            </ul>
+                                         
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            {% if company.addionalInformations != null %}
+            
+                <div class="row div col-sm-12 mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex ">
+                                <i class="fas fa-bars side-icon"></i>  <h5 class="title-style-1">Additional information</h5> 
+                            </div>
+                            <div class="body">
+                                <p class="text-muted">{{company.addionalInformations | raw}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endif %}
+
+
+
+                            {% if company.user.privacy == 0 %}
+                <div class="row div col-sm-12  mt-4">
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                <i class="fas fa-user-circle side-icon"></i>  <h5 class="title-style-1">Author</h5> 
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    
+                                     
+                                        <div class="col-md-4 col-sm-6 mb-3">
+                                            <div class="company-social-media">
+                                                <a href="{{ path('user_route',{id:company.user.id}) }}">
+                                                    <img src="{{company.user.photoURL}}" width="60px" class="img-circle" style="margin-right:15px" /> <span>{{company.user.firstname}} {{company.user.lastname}}</span>
+                                                </a>
+                                            </div>
+                                        </div> 
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            
+                
+
+            </div>
+
+        </div>
+
+
+        
+         
+        
+         
+
+    </div>
+
+</div>
+
+
+
+
+<section id="reviews" class="company-section-tab mt-5 mb-5" style="display: none;">
+    <div class="container"> 
+        <div class="row mt-5">
+            <div class="col-sm-6">
+
+                {% for r in company.ratings %}
+                    <div class="review-card mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="user-section">
+                                    <div class="d-flex">
+                                        <img style="margin-right: 15px" width="50px" height="50px" src="{{ r.user.photoURL != null ?  r.user.photoURL : 'https://afrk50.com/wp-content/plugins/ultimate-member/assets/img/default_avatar.jpg'  }}" class="img-circle" alt="">
+                                        <div>
+                                            <div class="username">
+                                                {{r.user.firstname}} {{r.user.lastname}}
+                                            </div>
+                                            <p> 
+
+                                                {{ r.date | date('M d, Y   h:m') }}
+                                            </p>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                <div class="solid-rating" rating="{{r.average}}"> 
+                                </div>
+                            </div>
+
+                            <p>
+                                <img src="{{r.joinedImageURL}}" class="mb-3 w-100 rounded" alt="" /> 
+                                
+                                {% if r.joinedImageURL != null %}
+                                    <br> 
+                                {% endif %}
+                                {{r.review}} 
+                            </p>
+
+
+
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Overall Rating</label>
+    
+                                        <div class="stars-bloc"> 
+                                            <div class="solid-rating" rating="{{r.overall}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Hospitality</label>
+    
+                                        <div class="stars-bloc"> 
+                                            <div class="solid-rating" rating="{{r.hospitality}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+    
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Services</label>
+    
+                                        <div class="stars-bloc">
+                                            <div class="solid-rating" rating="{{r.services}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Pricing</label>
+    
+                                        <div class="stars-bloc">
+                                            <div class="solid-rating" rating="{{r.pricing}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div> 
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex"><i class="far fa-comment-alt" style="margin-right: 15px;"></i> <strong>Add a review</strong> </div>
+
+                        {% if app.user != null %}
+                            <form method="post" enctype="multipart/form-data">
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Overall Rating</label>
+    
+                                        <div class="stars-bloc">
+                                            <input class="value" type="hidden" name="overall-rating">
+                                            <div class="my-rating "></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Hospitality</label>
+    
+                                        <div class="stars-bloc">
+                                            <input class="value" type="hidden" name="hospitality">
+                                            <div class="my-rating "></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+    
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Services</label>
+    
+                                        <div class="stars-bloc">
+                                            <input class="value" type="hidden" name="services">
+                                            <div class="my-rating "></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="rating-category-label" for="">Pricing</label>
+    
+                                        <div class="stars-bloc">
+                                            <input class="value" type="hidden" name="pricing">
+                                            <div class="my-rating "></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div> 
+                            <div class="form-group mt-3">
+                                <label for="" class="custom-label">Cover Image</label>
+                                <div class="input-zone" target="image">
+                                    <i class="fas fa-upload"></i>
+                                </div>
+
+                                <input accept="image/*" type="file" name="image" id="image"   class="d-none" /> 
+                                
+                            </div>
+                            <div class="form-group mt-3">
+    
+                                <label for=""><strong>Your message</strong> </label>
+                                <textarea required placeholder="Enter message..." class="form-control-afrk" rows="4" name="message" ></textarea>
+                            </div>
+    
+                            <div class="form-group mt-3">
+                                <button class="btn btn-primary w-100" type="submit">Submit review</button>
+                            </div>
+                        </form>
+                        {% endif %}
+
+                         
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+
+
+</section>
+
+
+
+<section id="details" class="company-section-tab mt-5 mb-5" style="display: none;">
+    <div class="container">
+
+         
+
+
+        <div class="row mt-5">
+
+           {% for attrs in company.companyAttributes %}
+                <div class="col-md-6 col-sm-12 mb-4"> 
+                    <div class="card company-card-details">
+                        <div class="card-body">
+                            <div class="d-flex ">
+                                <i class="fas fa-bars side-icon"></i>  <h5 class="title-style-1">{{attrs.attribute.name}}</h5> 
+                            </div>
+                            <div class="body">
+                                     
+                                    <div class="row">
+                                    {% for v in attrs.companyAttributesValues %}
+                                        <div class="col-md-6 col-sm-6 mb-3 mt-3">
+                                            <div class="company-social-media">
+                                                <a href="#">  
+                                                    <i style="color: #eee;background: #167ac6;" class="far fa-bookmark"></i> <span> {{v.value.value}}</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+           {% endfor %}
+
+
+
+        </div>
+    </div>
+
+
+
+</section>
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+           <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYWZyazUwYWRtaW4iLCJhIjoiY2t2d2F2ZXJuYzRkYTMwczdoZTh5N3BzZiJ9.ev6y63e37s0_YkF-54EZgg';
+            var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            zoom:12
+            
+        });
+
+        const marker = new mapboxgl.Marker({
+        draggable: true
+        })
+        .setLngLat([{{company.lng}}, {{company.lat}}])
+        .addTo(map);
+
+        map.flyTo({
+        center: [{{company.lng}}, {{company.lat}}]
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function(){
+            let initedZONE = false;
+
+            $(".report-listing-btn").click(function(e){
+                e.preventDefault();
+                $(".modal-report").modal("show");
+            })
+
+
+            $(".send-msg-btn").click(function(e){
+                e.preventDefault();
+                $(".modal-message").modal("show");
+                
+                if( initedZONE === false ){
+                    ClassicEditor
+                    .create( document.getElementById( 'message-box' ) )
+                    .catch( error => {
+                        console.error( error );
+                    } );
+
+                    initedZONE = true;
+                }
+
+                setTimeout(() => {
+                    $("#message-box").focus();
+                    
+
+                }, 2000);
+            })
+
+
+
+            $("#send-direct-message-btn").click(function(){
+                const message = $(".ck-content").html();
+                const targetname = "{{company.user.firstname}}"
+
+                const url = '/account/send-message/{{company.user.id}}';
+
+                $(this).attr("disabled","disabled");
+                $(this).text("Sending...");
+
+                $("#results-direct-message").html('');
+
+
+
+                    const data = { content:message };
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data, 
+                    }).done(function(res) {
+                        console.log(res)
+
+                        if( res.success === true ){
+                            $("#results-direct-message").html(`
+                                <div class="alert alert-success">
+                                    Your message is successfully sent to ${targetname}
+                                </div>
+                            `); 
+
+                            setTimeout(() => {
+                                $(".modal-message").modal("hide");
+                                $("#results-direct-message").html('');
+                            }, 2000);
+
+                        }else{
+                            $("#results-direct-message").html(`
+                                <div class="alert alert-danger">
+                                   Something went wrong while sending your message.
+                                </div>
+                            `);
+
+                        }
+                    })
+                    .fail(function(err) {
+                         $("#results-direct-message").html(`
+                                <div class="alert alert-danger">
+                                   Something went wrong while sending your message.
+                                </div>
+                            `);
+
+                    })
+                    .always(function() {
+                        $("#send-direct-message-btn").removeAttr("disabled");
+                        $("#send-direct-message-btn").text("send");
+                        $(".ck-content").html('')
+                    }); 
+            })
+
+
+
+            
+
+            
+        })
+    </script>
+
+{% endblock %}

@@ -1,0 +1,230 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}AFRK50 | Checkout{% endblock %}
+
+{% block body %}
+
+
+{% if app.user.isBlocked == false %}
+
+
+<div id="content" class="section-padding">
+    <div data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-9 m-auto">
+            <div class="container">
+
+                <div class="row"> 
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    In order to continue please choose one of the following payment methods.
+                                </p>
+                                 <h3>{{ plan.name }}</h3>
+
+                                
+                                  
+
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>
+                                                Package
+                                            </th>
+                                            <td>
+                                                {{ plan.name }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Policy
+                                            </th>
+                                            <td>
+                                                {{ plan.policy }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Trial 
+                                            </th>
+                                            <td>
+                                                15 days FREE
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Price
+                                            </th>
+                                            <td>
+                                                Starting from {{"now"|date("m/d/Y")  }}  <strong>{{ plan.price | format_currency('EUR') }}</strong> / month
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+
+
+                                <button class="back-btn btn-secondary btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="paypal-button-container"></div>
+                            </div>
+                        </div>
+                        {% if plan.stripeID != null and plan.stripeID != '' %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <button id="stripe-button-container">Checkout with <strong>stripe</strong>  </button>
+                                    <p class="text-center">
+                                        <img src="/img/logo-stripe3.png" style="height: 37px;">
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        
+
+                        <!--<div class="row">
+                            <div class="col-12">
+                                <img id="master-checkout" class="w-100" src="https://sandbox.src.mastercard.com/assets/img/btn/src_chk_btn_178x032px.svg?locale=XX_XX&paymentmethod=<accepted_card_brands>&checkoutid=<checkoutID>" alt="Click to pay with card"/>
+ 
+                            </div>
+                        </div>-->
+                        
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% else %}
+
+<div id="content" class="section-padding">
+    <div data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+                <div class="alert alert-danger">
+                    You account has been blocked by AFRK50 support team.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+
+
+
+
+
+
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AUyTMyoh7V4HJclHvd92dwc31dpChVtoL3312h-1SDavXeraZyAkuPL6vC4yYO4P7F9rK2ThcDtjex3b&currency=EUR&vault=true"
+    data-namespace="paypal_sdk"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        paypal_sdk.Buttons({
+        
+        createSubscription: function(data, actions) {
+          return actions.subscription.create({
+            'plan_id': '{{plan.paypalRenewalPlanID}}' // Creates the subscription
+          });
+        },
+        onApprove: function(data, actions) {
+                         // This function captures the funds from the transaction.
+                return actions.order.capture().then(function (details) {
+                    // activate membre duration for the correcponding baugt duration
+                    // todo
+                    window.location = "http://localhost:8000{{path('membership_checkout_success_callback_route')}}";
+                });
+        }
+      })
+        
+        .render('#paypal-button-container');
+
+    })
+</script>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    var stripe = Stripe('pk_test_51KEX7GIYJLTSS40amiNKqXVYuf3fhZN0uopesbjQyvcL6TvcPNQ5HpKXCwxewB5qwvvK1jVjW4uxKz5wwMrTAHyE001JwdITXP');
+
+   
+
+    document.getElementById("stripe-button-container").addEventListener("click",function(){
+        stripe.redirectToCheckout({
+            lineItems:[
+                {
+                    price:'{{plan.stripeID}}',
+                    quantity:1
+                }
+            ],
+            mode:'subscription',
+             
+            successUrl:"http://localhost:8000{{path('membership_checkout_success_callback_route')}}",
+            cancelUrl:"http://localhost:8000/account/membership-checkout/{{plan.id}}"
+            
+        }).then(function(result){
+            console.log(result);
+        }) 
+
+        
+ 
+
+
+    })
+
+</script>
+
+
+
+<script type="text/javascript" src="https://sandbox.masterpass.com/integration/merchant.js"></script>
+
+<script> 
+
+ // Invoke below javascript method
+
+document.getElementById("master-checkout").addEventListener("click",function(){
+    masterpass.checkout({
+        "checkoutId": "c26966b0eae94a3fbe47f994b94394b2",                                   // Merchant checkout identifier received when merchant onboarded for masterpass
+        "allowedCardTypes": ["master,amex,diners,discover,jcb,maestro,visa"],               // Card types accepted by merchant
+        "amount": "{{plan.price}}",                                                                 // Shopping cart subtotal
+        "currency": "USD",                                                                  // Currency code for cart
+        "shippingLocationProfile": "US,AU,BE",                                              // Shipping locations supported by merchant - configured in merchant portal
+        "suppress3Ds": false,                                                               // Set true when 3DS not mandatory for the spcecific country
+        "suppressShippingAddress": false,                                                   // Set true when cart items has digital goods only
+        "cartId": "1efed583-1824-436a-869f-286ebdb22ae2",                                   // Unique identifier for cart generated by merchant
+        "callbackUrl": "http://localhost:8000{{path('membership_checkout_success_callback_route')}}"                                  // The URL to which the browser must redirect when checkout is complete
+    })
+})
+
+
+
+</script>
+
+{% endblock %}

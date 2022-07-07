@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ListingAttributes index{% endblock %}
+
+{% block body %}
+    <h1>ListingAttributes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for listing_attribute in listing_attributes %}
+            <tr>
+                <td>{{ listing_attribute.id }}</td>
+                <td>
+                    <a href="{{ path('listing_attributes_show', {'id': listing_attribute.id}) }}">show</a>
+                    <a href="{{ path('listing_attributes_edit', {'id': listing_attribute.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('listing_attributes_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,459 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AFRK50 | {{user.firstname}} {{user.lastname}}  {% endblock %}
+
+{% block body %}
+
+
+ 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit About</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form method="post" action="">
+        <div class="modal-body">
+            
+                <div class="form-group">
+                    <label>About</label>
+
+                    <textarea class="form-control" rows="5" name="about">{{ user.about }}</textarea>
+                </div>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
+
+ 
+ 
+<div id="content" class="section-padding company-section-tab">
+   {% if user.privacy == 0 %}
+
+        <form action="{{ path('update_profile_cover_picture') }}" method="post" id="cover-form" enctype="multipart/form-data" class="d-none">
+            <input type="file" id="cover-photo-input" name="cover">
+        </form>
+
+        <div class="container">
+
+        <div class="user-profile-app"  style="background-image: url( {{ user.coverURL != null ? user.coverURL : '/assets/img/cover-default-profile.jpg' }} );"  >
+            {% if app.user.id == user.id %}
+            <!--<div class="cover-update" id="update-cover-btn"><i class="fas fa-image"></i></div>-->
+
+
+            
+            
+
+            <div class="dropdown cover-update" > 
+            <div class="" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"  ><i class="fas fa-cogs"></i></div>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" id="update-cover-btn" href="#">Edit cover photo</a></li>
+                <!--<li><a class="dropdown-item" id="update-cover-btn" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit about</a></li>-->
+                
+                <li><a class="dropdown-item" href="/account">Edit profile</a></li> 
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                 
+            </ul>
+            </div>
+
+ 
+
+
+            {% endif %}
+            
+            <div class="  d-flex ">
+                <div class="user-app-avatar" style="background-image: url({{user.photoURL}});">
+
+                </div>
+
+                <div>
+                    <h3 class="user-details-name">{{user.firstname}} {{user.lastname}} </strong>   {% if user.category != null %}<br>
+                            {% if user.category.id == 1 %}  <span class="badge bg-info"><small>Student</small></span>  {% endif %}
+                            {% if user.category.id == 2 %}  <span class="badge bg-info"><small>Job seaker</small></span></strong>  {% endif %}
+                            {% if user.category.id == 3 %} <span class="badge bg-info"><small>Professional</small></span></strong>   {% endif %}
+                            
+                        {% endif %}
+                        
+                        
+                         <br> 
+                         
+                    
+
+                    <!-- Button trigger modal -->
+                    {% if app.user.id != user.id %}
+                    <a type="button" class="btn btn-primary" href="{{ path('chat_route',{id:user.id}) }}">
+                    <i class="far fa-comment-dots"></i> chat
+                    </a> 
+                    </h3>  
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class=" user-toolbar d-flex" > 
+            <div class="tab-item-user-toolbar active" target="#about">
+                <i class="fas fa-user" ></i> About 
+
+                
+            </div>
+            <div class="tab-item-user-toolbar " target="#details">
+                <i class="fas fa-user" ></i> Details  
+            </div>
+            <div class="tab-item-user-toolbar " target="#posts">
+                <i class="fas fa-pencil-alt" ></i> Posts
+            </div>
+            <div class="tab-item-user-toolbar " target="#comments">
+                <i class="fas fa-comment" ></i> Comments
+            </div> 
+            
+
+            
+        </div>
+
+
+
+        <div class="user-content-tab-content">
+            <div class="card card-body user-section-tab" id="about">
+                <div class="info">
+
+                    
+ 
+
+                    <label for=""> <strong>Fullname</strong> </label>
+                    <p class="text-muted">
+                         {{user.firstname}} {{user.lastname}}
+                    </p>
+
+
+                    <label for=""> <strong>Country</strong> </label>
+                    <p class="text-muted">
+                         {{user.country}}
+                    </p>
+                    <label for=""> <strong>Category</strong> </label>
+                    <p class="text-muted">
+                         
+                        {% if user.category != null %}
+                            {% if user.category.id == 1 %}  Student  {% endif %}
+                            {% if user.category.id == 2 %}  Job seaker  {% endif %}
+                            {% if user.category.id == 3 %}  Professional  {% endif %}
+                            
+                        {% endif %}
+                        
+
+
+                    </p>
+                    <label for=""> <strong>About</strong> </label>
+                    <p class="text-muted">
+                       {{user.about}}
+                    </p>
+
+
+
+                    <!--<label for=""> <strong>Email</strong> </label>
+                    <p>
+                        <a href="mailto:{{user.email}}">{{user.email}}</a>
+                    </p>
+
+
+                    <label for=""> <strong>Display name</strong> </label>
+                    <p>
+                        <a href="#">{{ user.displayName }}</a>
+                    </p>
+
+                    <label for=""> <strong>Phone</strong> </label>
+                    <p>
+                        <a href="tel:{{user.phone}}">{{user.phone}}</a>
+                    </p>
+
+                    <label for=""> <strong>address</strong> </label>
+                    <p>
+                        {{user.address}}
+                    </p>-->
+
+                    
+                </div>
+            </div>
+            <div class="card card-body user-section-tab" id="details" style="display:none">
+                <div class="info">
+                            {% if app.user.isLeagalEntity == true %}
+      
+
+
+
+                                <p><strong>Year of creation</strong></p>
+                                <p class="text-muted">{{ user.yearOfCreation }}</p>
+
+                                <p><strong>Number of employees</strong></p>
+                                <p class="text-muted">{{ user.numberOfEmployees }}</p>
+
+
+                                <p><strong>Range of yearly revenues</strong></p>
+                                <p class="text-muted">{{ user.rangeOfYearlyRevenues }}</p>
+
+                                <p><strong>Type of company</strong></p>
+                                <p class="text-muted">{{ user.typeOfCompany }}</p>
+
+
+                                <p><strong>Phase of the company</strong></p>
+                                <p class="text-muted">{{ user.phaseOfTheCompany }}</p>
+
+
+
+                                <p><strong>Contact person</strong></p>
+                                <p class="text-muted">{{ user.contactPerson }}</p>
+
+                                <p><strong>Interests</strong></p>
+                                <p class="text-muted">{{ user.interests }}</p>
+
+
+                                
+
+                                <p><strong>Short company description</strong></p>
+                                <p class="text-muted">{{ user.shortCompanyDescription }}</p>
+
+
+
+
+
+                                 
+
+                            {% endif %}
+
+
+                    {% if user.studentInfo != null %}
+
+                        <p><strong>Establishment Name</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.etablismentName }}</p>
+
+                        <p><strong>Establishment address</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.etablismentAddress }}</p>
+
+                        <p><strong>Study domaine</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.studyDomaine }}</p>
+
+                        <p><strong>Study start year</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.studyStartYear }}</p>
+
+                         
+                         <p><strong>Areas of Interest </strong></p>
+                        <p class="text-muted">
+                            {% for item in user.studentInfo.intrestsAreas %}
+                                {{ item }}
+                            {% endfor %}
+                            
+                        </p>
+
+                        
+                        <p><strong>Describe  yourself and the way you to contribute to this community</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.moreInfo }}</p>
+
+
+                        <p><strong>Social link</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.socialLink }}</p>
+
+                        <p><strong>Student pass</strong></p>
+                        
+               <p class="text-muted"> <a href="{{ user.studentInfo.studentPass }}" download=""  ><i class="fas fa-file-pdf"></i> download</a> </p>
+
+                         
+                         
+                    {% endif %}
+                    {% if user.jobSeekerInfo != null %}
+
+
+                        <p><strong>Areas of Experience</strong></p>
+                        <p class="text-muted">
+                            {{ user.jobSeekerInfo.areasOfExperience }} 
+                        </p>
+    
+
+                        <p><strong>Years of Experience</strong></p>
+                        <p class="text-muted"> {{ user.jobSeekerInfo.yearsOfExperience }} </p> 
+
+                        <p><strong>Areas of Interest </strong></p>
+                        <p class="text-muted">
+                            {% for item in user.jobSeekerInfo.areasOfIntrests %}
+                                {{ item }}
+                            {% endfor %} 
+                        </p>
+                    
+
+                        <p><strong>Resume</strong></p>
+ 
+
+               <p class="text-muted"> <a href="{{ user.jobSeekerInfo.resumeFILE }}" download=""  ><i class="fas fa-file-pdf"></i> download</a> </p>
+
+
+
+                        <p><strong>Describe  yourself and the way you to contribute to this community</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.moreInfo }}</p>
+
+
+                        <p><strong>Social link</strong></p>
+                        <p class="text-muted">{{ user.studentInfo.socialLink }}</p>
+                    
+                        
+                    {% endif %}
+
+                    
+                    {% if user.proInfo != null %}
+                    <p><strong>Areas of Experience</strong></p>
+                    <p class="text-muted">
+                        {{ user.proInfo.areasOfExperience }}
+                    </p>
+ 
+ 
+                   
+
+                    <p><strong>Years of Experience</strong></p>
+                    <p class="text-muted"> {{ user.proInfo.yearsOfExperience }} </p>
+
+                 
+                    <p><strong>Areas of Interest </strong></p>
+                    <p class="text-muted">
+                        {% for item in user.proInfo.areasOfIntrests %}
+                            {{ item }}
+                        {% endfor %} 
+                    </p>
+                   
+
+                   
+                    <p><strong>Describe  yourself and the way you to contribute to this community</strong></p>
+                    <p class="text-muted">{{ user.proInfo.moreInfo }}</p>
+
+
+                    <p><strong>Social link</strong></p>
+                    <p class="text-muted">{{ user.proInfo.socialLink }}</p>
+
+                    <p><strong>Resume</strong></p>
+                    <p class="text-muted"> <a href="{{ user.proInfo.resumeFILE }}" download=""  ><i class="fas fa-file-pdf"></i> download</a> </p>
+
+                 
+                    {% endif %} 
+                    
+                </div>
+            </div>
+
+            
+
+
+            <div class="card card-body user-section-tab" id="posts" style="display:none">
+                <div class=" row">
+                    {% for item in user.companies %} 
+                        {% if item.isDeleted == false %}
+                            {% if item.status == 1 %}
+                            <div class="col-sm-6 mb-3">
+                    <div class="card  w-100">
+                      <div class="card-body p-0 " >
+                      <div class="business-card" style="background-image: url({{ asset(item.coverImageURL) }});">
+                          
+                          
+
+                          
+                          {% if item.avgRating != null and  item.avgRating != 0 %}
+                          <div class="starts">
+                            <div class="solid-rating" rating="{{item.avgRating}}"></div>
+                          </div>
+                          {% endif %}
+
+                          
+      
+                          <div class="info-bloc" company="{{item.id}}">
+                          <div class="avatar" style="background-image: url({{ asset(item.logoURL) }});"></div>
+                          <div class="name">{{item.name}}</div>
+                          <div class="description text-muted">{{item.slogan}}</div>
+                          <div class="location text-muted"><i class="fas fa-map-marker-alt"></i> {{item.address}}</div>
+                          </div>
+      
+      
+                      </div>
+      
+      
+                      </div>
+                      <div class="card-footer card-footer border-0 bg-white">
+                      <div class="d-flex d-flex justify-content-between">
+                          <div>
+                          <div class="circle-green">
+                              <i class="far fa-bookmark"></i>
+                          </div>
+                          <div class="card-type">
+                              {{item.listing}}
+                          </div>
+      
+                          </div>
+      
+                          <div>
+                          <div class="circle-grey">
+                              <i class="fas fa-search-plus"></i>
+                          </div>
+                          {% if app.user != null %}
+                          <div class="circle-grey">
+                              <i class="far fa-heart"></i>
+                          </div>
+                          {% endif %}
+                          
+                          </div>
+      
+      
+                      </div>
+                      </div>
+                  </div>
+                    </div>
+                            {% endif %}
+                            
+                        {% endif %}
+                        
+      
+                    {% endfor %} 
+                </div>
+            </div>
+
+
+
+            <div class="card card-body user-section-tab" id="comments" style="display:none">
+                {% for r in user.ratings %}
+                    <p> <i class="fas fa-comment"></i> {{ r.review }}</p>
+                    <p> 
+
+                        <small>{{ r.date | date('M d, Y   h:m') }}</small>
+                    </p>
+
+                    <p>to : <a href="{{path('company_route',{id:r.company.id})}}">{{r.company.name}}</a></p>
+                    <hr>
+                {% endfor %}
+            </div>
+
+        </div>
+
+   
+
+    </div>
+   {% else %}
+       <p class="text-muted text-center">
+        Looks like you are using an old link. <a href="/">back to home page</a>
+       </p>
+   {% endif %}
+
+</div>
+ 
+
+
+
+{% endblock %}
+
+ 

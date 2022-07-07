@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HowItHelps{% endblock %}
+
+{% block body %}
+    <h1>HowItHelps</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ how_it_help.id }}</td>
+            </tr>
+            <tr>
+                <th>Video</th>
+                <td>{{ how_it_help.video }}</td>
+            </tr>
+            <tr>
+                <th>Descreption</th>
+                <td>{{ how_it_help.descreption }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('how_it_helps_index') }}">back to list</a>
+
+    <a href="{{ path('how_it_helps_edit', {'id': how_it_help.id}) }}">edit</a>
+
+    {{ include('how_it_helps/_delete_form.html.twig') }}
+{% endblock %}

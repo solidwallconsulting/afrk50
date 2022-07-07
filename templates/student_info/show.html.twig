@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StudentInfo{% endblock %}
+
+{% block body %}
+    <h1>StudentInfo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ student_info.id }}</td>
+            </tr>
+            <tr>
+                <th>EtablismentName</th>
+                <td>{{ student_info.etablismentName }}</td>
+            </tr>
+            <tr>
+                <th>EtablismentAddress</th>
+                <td>{{ student_info.etablismentAddress }}</td>
+            </tr>
+            <tr>
+                <th>StudyDomaine</th>
+                <td>{{ student_info.studyDomaine }}</td>
+            </tr>
+            <tr>
+                <th>StudyStartYear</th>
+                <td>{{ student_info.studyStartYear }}</td>
+            </tr>
+            <tr>
+                <th>IntrestsAreas</th>
+                <td>{{ student_info.intrestsAreas ? student_info.intrestsAreas|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>StudentPass</th>
+                <td>{{ student_info.studentPass }}</td>
+            </tr>
+            <tr>
+                <th>MoreInfo</th>
+                <td>{{ student_info.moreInfo }}</td>
+            </tr>
+            <tr>
+                <th>SocialLink</th>
+                <td>{{ student_info.socialLink }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('student_info_index') }}">back to list</a>
+
+    <a href="{{ path('student_info_edit', {'id': student_info.id}) }}">edit</a>
+
+    {{ include('student_info/_delete_form.html.twig') }}
+{% endblock %}

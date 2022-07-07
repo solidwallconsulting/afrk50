@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Customer reviews - AFRK50 {% endblock %}
+
+{% block body %}
+ 
+
+<div id="content" class=" ">
+    <div class="container-fluid p-0">
+         <div class="d-flex w-100 page-cover"   style="min-height: 45vh;background-image: url({{asset('/assets/img/Review-AFRK50-Background.jpg')}});">
+
+            <div class="page-title">REVIEWS</div>
+         </div>
+
+
+         <div class="container custom-page-content">
+
+
+
+
+            <div class="custom-page-title mt-5 mb-5">
+                THIS IS WHAT OUR HAPPY USERS SAY
+             </div>
+
+
+
+            <div class="container">
+                <div class="row">
+                    {% for item in how_it_helps %}
+                    <div class="bloc-testi col-sm-6 mb-3">
+                    <div class="header d-flex">
+                      <div class="avatar">
+                        <img src="{{ item.user.photoURL }}" alt="">
+                      </div>
+                      <div>
+                        <strong>{{ item.user.firstname }} {{ item.user.lastname }}</strong>
+                        <p class="text-muted">Founder of {% if item.user.companies | length != 0 %}{{ item.user.companies[0].name }}{% endif %}
+                      </div>
+                    </div>
+                    <div class="bloc-testi-content">
+                      {{ item.video | raw }}
+            
+                      <p class="text-muted">
+            
+                        {{ item.descreption }}
+                      </p>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+            </div>
+
+
+ 
+         
+
+
+         </div> 
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+ 

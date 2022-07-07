@@ -1,0 +1,215 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AFRK50 | PLANS & PRICING{% endblock %}
+
+{% block body %}
+
+
+{% if app.user.isBlocked == false %}
+    
+ <div style="background-image: url(https://afrk50.com/wp-content/uploads/2021/01/Plans-Header-Background.jpg);
+ background-position: center center;
+ background-size: cover;
+ transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+     
+    margin-bottom: 0px;
+    padding: 350px 0px 35px 0px;
+    ">
+
+    <div class="container">
+        <h1 style="color: #FFFFFF;
+        font-family: Montserrat bold;
+        font-size: 70px;
+        font-weight: 800;
+        line-height: 0.9em;">
+        PLANS & PRICING
+        </h1>
+    </div>
+ </div>
+
+<div id="content" class="section-padding">
+    <div class="container"> 
+            
+ 
+ 
+
+            <div class="row mt-5">
+
+                <div class="pricing-plan">
+                    <div class="pricing-pre-title" >CHOOSE YOUR PLAN AND</div>
+                    <div class="pricing-title" >START TODAY</div>
+                </div>
+
+
+
+                <div class="card">
+                    <div class="card-body">
+
+                        
+
+                        <table class="table pricing-table">
+                            <thead>
+                                <tr>
+                                    <th>Packages</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Basic</strong></td>
+                                    <td><strong>Premium</strong></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Market your Service or Product (1 listings for Basic and 3 listing for Premium)
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Post an Article on the AFRK50 Blog
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Share your social media links in your profile
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Share one corporate Video in the profile
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    
+                                    <td>
+                                        <p>
+                                            Promote one Listing of your choice for 1 week/month on the AFRK50 Platform
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    
+                                    <td>
+                                        <p>
+                                            Present one official introduction of your company in AFRK50´s Social Medias
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    
+                                    <td>
+                                        <p>
+                                            1 h Career Boosting Consultation
+                                        </p>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+
+
+
+                
+
+                        
+                    </div>
+                </div>
+
+
+
+
+
+                
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead style="border: 0;">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Duration</th>
+                                    <th>Price</th>
+                                    
+                                </tr>
+                            </thead>
+                            {% for item in plans %}
+                               <tr>
+                                 <td><strong>{{ item.name }}</strong></td>
+                                <td><strong>{{ (item.duration / 30)  }} month(s)</strong></td>
+                                <td>
+                                    <a href="{{ path('membership_checkout_route',{id:item.id}) }}" class="btn btn-primary">{{ item.price | format_currency('EUR') }} / order now</a>
+                                </td> 
+                            </tr> 
+                            {% endfor %}
+                            
+                            
+
+                        </table>
+                     </div>
+                </div>
+
+            </div>
+    </div>
+
+</div>
+
+{% else %}
+        <div id="content" class="section-padding">
+    <div  data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+                <div class="alert alert-danger">
+                    You account has been blocked by AFRK50 support team.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+ 
+
+
+
+{% endblock %}

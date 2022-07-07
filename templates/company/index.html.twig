@@ -1,0 +1,151 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Categories</h4>
+                        </div>
+
+                        <div>
+
+                            
+                        </div>
+
+                    </div>
+                    <div class="card-body w-100">
+
+
+
+                            <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Reports</th>
+                                    
+                                    <th>Payment Status</th> 
+                                    <th>Status</th>
+                                    <th>actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                
+ 
+
+                                {% for company in expiredList %}
+                                <tr>
+                                    <td>{{ company.id }}</td>
+                                    <td>
+                                        <img src="{{ company.logoURL }}" width="60px" style="margin-right:15px"/> {{ company.name }}
+                                    </td>
+
+                                    <td>
+                                        {% if company.listingReports | length != 0 %}
+                                            <span class="badge bg-warning"> <a href="{{ path('listing_reports_index',{id:company.id}) }}"> {{ company.listingReports | length }} report(s)</a></span>
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td>
+                                        <span class="badge bg-danger">expired</span>
+                                    </td>
+                                     
+                                    <td>
+                                        {% if company.status == 0 %}
+                                            <span class="badge bg-warning">pending</span>
+                                        {% endif %}
+                                        {% if company.status == 1 %}
+                                            <span class="badge bg-success">accepted</span>
+                                        {% endif %}
+                                        {% if company.status == 2 %}
+                                            <span class="badge bg-info">waiting for Payment</span>
+                                        {% endif %}
+                                        {% if company.status == 3 %}
+                                            <span class="badge bg-danger">expired</span>
+                                        {% endif %}
+                                        {% if company.status == 4 %}
+                                        <span class="badge bg-danger">declined</span>
+                                    {% endif %}
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('company_show', {'id': company.id}) }}">details</a>
+                                         
+                                    </td>
+                                </tr> 
+                            {% endfor %}
+
+                            
+
+
+                            {% for c in notExpriredCompanies %}
+                                <tr>
+                                    <td>{{ c.id }}</td>
+                                    <td>
+                                        <img src="{{ c.logoURL }}" width="60px" style="margin-right:15px"/> {{ c.name }}
+                                    </td>
+
+                                    <td>
+                                        {% if c.listingReports | length != 0 %}
+                                            <span class="badge bg-warning"> <a href="{{ path('listing_reports_index',{id:c.id}) }}"> {{ c.listingReports | length }} report(s)</a></span>
+                                        {% endif %}
+                                        
+                                    </td>
+                                    
+                                    <td>
+                                        <span class="badge bg-success">payed</span>
+                                    </td>
+                                     
+                                    <td>
+                                        {% if c.status == 0 %}
+                                            <span class="badge bg-warning">pending</span>
+                                        {% endif %}
+                                        {% if c.status == 1 %}
+                                            <span class="badge bg-success">accepted</span>
+                                        {% endif %}
+                                        {% if c.status == 2 %}
+                                            <span class="badge bg-info">waiting for Payment</span>
+                                        {% endif %}
+                                        {% if c.status == 3 %}
+                                            <span class="badge bg-danger">expired</span>
+                                        {% endif %}
+                                        {% if c.status == 4 %}
+                                        <span class="badge bg-danger">declined</span>
+                                    {% endif %}
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('company_show', {'id': c.id}) }}">details</a>
+                                         
+                                    </td>
+                                </tr> 
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            {% endblock %}

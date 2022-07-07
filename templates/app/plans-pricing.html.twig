@@ -1,0 +1,570 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plans pricing - AFRK50 {% endblock %}
+
+{% block body %}
+ 
+
+<div id="content" class=" ">
+    <div class="container-fluid p-0">
+         <div class="d-flex w-100 page-cover" 
+         
+
+         style="flex-direction: column;
+         justify-content: space-between;
+         align-items: start;min-height: 77vh;;background-image: url({{asset('/assets/img/Plans-Header-Background.jpg')}});">
+         
+         
+                     <div class="container">
+                <!--  <img src="/assets/img/afrk50-logo.png" class="mt-4" alt="" width="176px">-->
+            </div>
+            <div class="container">
+                <div class="page-title">PLANS & PRICING</div>
+            </div>
+
+ 
+         </div>
+
+
+         <div class="container custom-page-content">
+
+
+
+
+            <div class="custom-page-title mt-5 mb-5">
+                CHOOSE YOUR PLAN AND
+                <div class="" style="color: #68A0B1;
+    font-family: Montserrat bold, Sans-serif;
+    font-size: 90px;
+    font-weight: 800;">START TODAY</div>
+             </div>
+
+
+
+
+             <div class="card-deck mb-3 text-center">
+
+
+
+  <div class="text-center mb-3">
+    <label for="">
+      <strong>monthly</strong>
+    </label>
+
+    <div class="switch-btn">
+      <div class="toogle"></div>
+    </div>
+
+    <label for=""><strong>yearly</strong></label>
+  </div>
+
+
+  <div class="pack-row pack-basic">
+    <div class="row d-flex justify-content-center">
+
+
+
+      <div class="col-sm-4">
+        <div class="card mb-4 box-shadow"> 
+          <div class="card-body">
+            <div class="w-100" style="
+            background-image: url(https://afrk50.com/wp-content/uploads/2021/04/professional-training-1024x683.jpg);
+            background-position: center;
+            background-size: cover;
+            height: 200px;
+            ">
+
+            </div>
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">Basic</div>
+
+
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family: Montserrat, Sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            ">From</div>
+            
+            <h1 class="card-title pricing-card-title" style="    text-align: center;
+            color: #303030;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">{{ 19.99 | format_currency('EUR') }}  MONTHLY</h1>
+            <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+              <li> <i class="fas fa-check"></i> Market your Service or Product  (1 listings for Basic) </li>
+              <li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+              <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+              <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+              <li style="visibility:hidden"><i class="fas fa-times"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+              <li style="visibility:hidden"><i class="fas fa-times"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+              <li style="visibility:hidden"><i class="fas fa-times"></i> 1 h Career Boosting Consultation</li> 
+               
+
+
+
+              
+              
+            </ul>
+           <a style="padding: 15px; font-weight: BOLD;" href="{{ path('membership_checkout_route',{id:1}) }}" class="btn btn-primary w-100">START THE FREE TRIAL</a>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <!--******************-->
+
+ 
+          <div class="col-sm-4">
+            <div class="card mb-4 box-shadow"> 
+              <div class="card-body">
+                <div class="w-100" style="
+                background-image: url(https://afrk50.com/wp-content/uploads/2021/06/plans-pricing-header-bg-1024x499.jpg);
+                background-position: center;
+                background-size: cover;
+                height: 200px;
+                ">
+    
+                </div>
+                <div style="text-align: center;
+                color: #68A0B1;
+                font-family:  Montserrat , Sans-serif;
+                font-size: 25px;
+                font-weight: 600;
+                letter-spacing: 1.5px;">Premium</div>
+    
+    
+                <div style="text-align: center;
+                color: #68A0B1;
+                font-family: Montserrat, Sans-serif;
+                font-weight: 600;
+                margin-bottom: 20px;
+                ">From</div>
+                
+                <h1 class="card-title pricing-card-title" style="    text-align: center;
+                color: #303030;
+                font-family:  Montserrat , Sans-serif;
+                font-size: 21px;
+                font-weight: 600;
+                letter-spacing: 1.5px;">{{ 29.99 | format_currency('EUR') }}  MONTHLY</h1>
+            <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+              <li> <i class="fas fa-check"></i> Market your Service or Product  (3 listing for Premium) </li>
+              <li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+              <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+              <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+              <li><i class="fas fa-check"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+              <li><i class="fas fa-check"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+              <li><i class="fas fa-check"></i> 1 h Career Boosting Consultation</li> 
+
+
+
+              
+              
+            </ul>
+           <a style="padding: 15px; font-weight: BOLD;" href="{{ path('membership_checkout_route',{id:2}) }}" class="btn btn-primary w-100">START THE FREE TRIAL</a>
+
+              </div>
+            </div>
+          </div>
+
+           
+ 
+    </div>
+
+  </div>
+
+
+  <div class="pack-row pack-yearly d-none">
+    <div class="row d-flex justify-content-center">
+ 
+      <div class="col-sm-4">
+        <div class="card mb-4 box-shadow"> 
+          <div class="card-body">
+            <div class="w-100" style="
+            background-image: url(https://afrk50.com/wp-content/uploads/2021/04/professional-training-1024x683.jpg);
+            background-position: center;
+            background-size: cover;
+            height: 200px;
+            ">
+
+            </div>
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">Basic</div>
+
+
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family: Montserrat, Sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            ">From</div>
+            
+            <h1 class="card-title pricing-card-title" style="    text-align: center;
+            color: #303030;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">{{ 16.99 | format_currency('EUR') }}  MONTHLY</h1>
+            <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+              <li> <i class="fas fa-check"></i> Market your Service or Product  (1 listings for Basic) </li>
+              <li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+              <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+              <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+              <li style="visibility:hidden"><i class="fas fa-times"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+              <li style="visibility:hidden"><i class="fas fa-times"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+              <li style="visibility:hidden"><i class="fas fa-times"></i> 1 h Career Boosting Consultation</li> 
+               
+
+              
+              
+            </ul>
+           <a style="padding: 15px; font-weight: BOLD;" href="{{ path('membership_checkout_route',{id:3}) }}" class="btn btn-primary w-100">START THE FREE TRIAL</a>
+
+        
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <div class="col-sm-4">
+        <div class="card mb-4 box-shadow"> 
+          <div class="card-body">
+            <div class="w-100" style="
+            background-image: url(https://afrk50.com/wp-content/uploads/2021/06/plans-pricing-header-bg-1024x499.jpg);
+            background-position: center;
+            background-size: cover;
+            height: 200px;
+            ">
+
+            </div>
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">Premium</div>
+
+
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family: Montserrat, Sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            ">From</div>
+            
+            <h1 class="card-title pricing-card-title" style="    text-align: center;
+            color: #303030;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">{{ 24.99 | format_currency('EUR') }}  MONTHLY</h1>
+            <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+              <li> <i class="fas fa-check"></i> Market your Service or Product  (3 listing for Premium) </li>
+              <li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+              <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+              <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+              <li><i class="fas fa-check"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+              <li><i class="fas fa-check"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+              <li><i class="fas fa-check"></i> 1 h Career Boosting Consultation</li> 
+
+
+
+              
+              
+            </ul>
+           <a style="padding: 15px; font-weight: BOLD;" href="{{ path('membership_checkout_route',{id:4}) }}" class="btn btn-primary w-100">START THE FREE TRIAL</a>
+
+             
+          </div>
+        </div>
+      </div>
+
+
+  
+    </div>
+
+  </div>
+    
+ 
+
+
+  </div>
+
+
+
+
+
+<!--
+<section class="lets-work-together">
+  <div class="container">
+ 
+    <div class="widget-bloc">
+
+
+
+<div class="card">
+                    <div class="card-body">
+
+                        
+
+                        <table class="table pricing-table">
+                            <thead>
+                                <tr>
+                                    <th>Packages</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Basic</strong></td>
+                                    <td><strong>Premium</strong></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Market your Service or Product (1 listings for Basic and 3 listing for Premium)
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Post an Article on the AFRK50 Blog
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Share your social media links in your profile
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    <td><i class="fas fa-check"></i></td>
+                                    <td>
+                                        <p>
+                                            Share one corporate Video in the profile
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    
+                                    <td>
+                                        <p>
+                                            Promote one Listing of your choice for 1 week/month on the AFRK50 Platform
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    
+                                    <td>
+                                        <p>
+                                            Present one official introduction of your company in AFRK50´s Social Medias
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-check"></i>
+                                    </td>
+                                    
+                                    <td>
+                                        <p>
+                                            1 h Career Boosting Consultation
+                                        </p>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+
+
+
+                
+
+                        
+                    </div>
+                </div>
+
+
+
+
+
+                
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead style="border: 0;">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Duration</th>
+                                    <th>Price</th>
+                                    
+                                </tr>
+                            </thead>
+                            {% for item in plans %}
+                               <tr>
+                                 <td><strong>{{ item.name }}</strong></td>
+                                <td><strong>{{ (item.duration / 30)  }} month(s)</strong></td>
+                                <td>
+                                    <a href="{{ path('membership_checkout_route',{id:item.id}) }}" class="btn btn-primary">{{ item.price | format_currency('EUR') }} / START THE FREE TRIAL</a>
+                                </td> 
+                            </tr> 
+                            {% endfor %}
+                            
+                            
+
+                        </table>
+                     </div>
+                </div>
+
+
+
+    <!---
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="text-center">
+
+
+
+
+            <div class="card">
+              <div class="card-body">
+                <div class="paricing-image" style="background-image: url(/img/Newsletter-BG-1.jpg);"></div>
+                <p class="plan-name">PROFESSIONALS</p>
+                <p class="plan-d">FROM</p>
+                <p class="plan-price" data-aos="fade-up"  data-aos-duration="800">€ 16,99 MONTHLY</p>
+
+                <a href="#" class="btn btn-primary read-more-btn w-100" role="button">
+                  SEE PLAN
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <div class="text-center">
+            <div class="card">
+              <div class="card-body">
+                <div class="paricing-image"
+                  style="background-image: url(/img/plans-pricing-header-bg-1024x499.jpg);"></div>
+                <p class="plan-name">BUSINESS</p>
+                <p class="plan-d">FROM</p>
+                <p class="plan-price" data-aos="fade-up"  data-aos-duration="800">€ 24,99 MONTHLY</p>
+
+                <a href="#" class="btn btn-primary read-more-btn w-100" role="button">
+                  SEE PLAN
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <div class="text-center">
+            <div class="card">
+              <div class="card-body">
+                <div class="paricing-image" style="background-image: url(/img/professional-training-1024x683.jpg);">
+                </div>
+                <p class="plan-name">CORPORATES </p>
+                <p class="plan-price">A tailor made solution for your business</p>
+
+                <a href="#" class="btn btn-primary read-more-btn w-100" role="button">
+                  SEE PLAN
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="form-group text-center">
+      <button class="btn btn-primary read-more-btn">
+        SEE ALL PLANS
+      </button>
+    </div> 
+
+
+  </div>
+</section>-->
+
+         
+
+
+         </div> 
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+ {% block javascripts %}
+ {{ parent() }}  
+
+ <script>
+  $(document).ready(function(){
+    $(".switch-btn").click();
+  })
+ </script>
+ {% endblock %}

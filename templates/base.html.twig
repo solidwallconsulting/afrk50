@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}AFRK50 | HOME
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			<link rel="stylesheet" href="{{ asset('/mamamia/bootstrap/dist/css/bootstrap.min.css') }}">
+			<link rel="stylesheet" href="{{ asset('/mamamia/aos-master/dist/aos.css') }}">
+			<link rel="stylesheet" href="{{ asset('/mamamia/fontawesome-free/css/all.css') }}">
+			<link rel="stylesheet" href="{{ asset('/mamamia/OwlCarousel2/dist/assets/owl.carousel.min.css') }}">
+			<link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css"/>
+			<link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet'/>
+			<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
+			<link href="{{ asset('/mamamia/star-rating-svg-master/src/ css/star-rating-svg.css') }}" rel="stylesheet"/>
+
+
+			<link rel="stylesheet" href="{{ asset('/css/main.css') }}">
+			<link rel="stylesheet" href="{{ asset('/css/responsive.css') }}">
+
+		{% endblock %}
+
+
+	</head>
+
+	<body id="app" >
+
+	<!-- Messenger Plugin de discussion Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin de discussion code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "404883113292466");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v13.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+	
+
+
+		{% block more %}
+			<div class="loader-screen">
+				<div class="content-loader">
+					<img src="/img/afrk50-logo-white-03.png" alt="">
+				</div>
+			</div>
+
+
+			<div class="side-icons">
+				<div data-aos="fade-left" data-aos-deley="1500" data-aos-duration="500">
+					<a target="blank" href="https://www.youtube.com/channel/UCMJQFe9OnAXG1KFJF9gJdHQ">
+						<i class="fab fa-youtube"></i>
+					</a>
+
+				</div>
+				<div data-aos="fade-left" data-aos-deley="1500" data-aos-duration="700">
+					<a target="blank" href="https://www.instagram.com/afrk50team/">
+						<i class="fab fa-instagram"></i>
+					</a>
+				</div>
+				<div data-aos="fade-left" data-aos-deley="1500" data-aos-duration="900">
+					<a target="blank" href="https://www.facebook.com/teamafrk50/">
+						<i class="fab fa-facebook-f"></i>
+					</a>
+				</div>
+				<div data-aos="fade-left" data-aos-deley="1500" data-aos-duration="900">
+					<a target="blank" href="https://www.linkedin.com/company/afrk50">
+						<i class="fab fa-linkedin"></i>
+					</a>
+				</div>
+
+			</div>
+		{% endblock %}
+
+
+		{% block nav %}
+				
+
+
+			{% if app.user != null %}
+								{% if app.user.lastBoughtPlanType != null %}
+									
+
+									{% if app.user.lastBoughtPlanType.id == 3 or app.user.lastBoughtPlanType.id == 4 %}
+									
+								 
+										{% if app.user != null %}
+											<div class="d-flex justify-content-end top-connected-bar ">
+												Hi, {{app.user.firstname}}  <img src="{{app.user.photoURL}}"/>
+											</div>
+										{% endif %}
+
+									{% else %}
+										 
+										{% if app.user != null %}
+											<div class="d-flex justify-content-end top-connected-bar basic-bar">
+												Hi, {{app.user.firstname}}  <img src="{{app.user.photoURL}}"/>
+											</div>
+										{% endif %}
+
+
+
+
+										
+
+
+									{% endif %}
+									
+
+								{% else %}
+
+									{% if app.user != null %}
+										<div class="d-flex justify-content-end top-connected-bar basic-bar">
+											Hi, {{app.user.firstname}}  <img src="{{app.user.photoURL}}"/>
+										</div>
+									{% endif %}
+
+									
+								{% endif %}
+			{% endif %}
+
+
+
+			<div class="top-nav-bar" id="top-nav-bar">
+
+
+				
+				
+				<nav class="navbar  p-0">
+				
+					<div class="container d-flex flex-row">
+						<div class="d-flex">
+
+							 
+							
+<div class="text-white top-left-message "> 
+										<a href="{{ path('main_route') }}"><img width="90px" src="/img/logo.png" alt=""></a>
+										<a class="text-white" href="mailto:team@afrk50.com"> contact us: team@afrk50.com</a>
+									</div>
+
+
+							<div class="icons ">
+
+
+								<a href="https://www.youtube.com/channel/UCMJQFe9OnAXG1KFJF9gJdHQ">
+									<i class="fab fa-youtube"></i>
+								</a>
+								<a href="https://www.facebook.com/teamafrk50/">
+									<i class="fab fa-facebook-f"></i>
+								</a>
+								<a href="https://www.instagram.com/afrk50team/">
+									<i class="fab fa-instagram"></i>
+								</a>
+								<a href="https://www.linkedin.com/company/afrk50">
+									<i class="fab fa-linkedin"></i>
+								</a>
+
+							</div>
+						</div>
+
+						<div class="collapse-btn">
+							<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+								<i class="fas fa-bars text-white"></i>
+							</button>
+						</div>
+
+						<div class="navbar navbar-expand-lg  d-flex top-right-menu">
+							<div class="collapse navbar-collapse" id="navbarNavDropdown">
+								<ul class="navbar-nav">
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('main_route') }}">Home</a>
+									</li>
+									{% if app.user %}
+										<li class="nav-item">
+											<a class="nav-link" href="{{ path('marketplace_route') }}">Marketplace</a>
+										</li>
+									{% endif %}
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('about_route') }}">About</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">Blog</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path('contact_route') }}">Contact</a>
+									</li>
+
+
+									{% if app.user == null %}
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+												Account
+											</a>
+											<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+												<li>
+													<a class="dropdown-item" href="{{ path('app_login') }}">Log in
+													</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('choose_account_to_create_route') }}">Create an account</a>
+												</li>
+											</ul>
+										</li>
+									{% else %}
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+												Account
+											</a>
+											<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="left: -118px;">
+												<li>
+													<a class="dropdown-item" href="{{ path('profile_route') }}">My profile</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('my_inbox_route') }}">Inbox</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('all_chat_route') }}">Chat</a>
+												</li>
+												
+												
+												<li>
+													<a class="dropdown-item" href="{{path('my_listing_index')}}">My Listings</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('choose_listing_route') }}">Add a listing</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('features_route') }}">My Account Features</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('my_promoted_items_index') }}">Promotions</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('my_bookmarks_index') }}">Bookmarks</a>
+												</li> 
+												<li>
+													<a class="dropdown-item" href="/logout">Logout</a>
+												</li>
+
+
+
+
+  
+ 
+
+
+
+											</ul>
+										</li>
+
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		{% endblock %}
+
+
+		{% block body %}{% endblock %}
+
+		{% block footer %}
+
+			<footer>
+				<div class="footer-content">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-12 col-md-3">
+								
+								<a href="/"><img src="/img/afrk50-logo-white-03.png" class="w-100 mb-3" alt=""></a>
+								<!--<form action="{{ path('marketplace_route') }}" method="get">
+									<div class="d-flex">
+										<input type="text" class="form-control search-input" name="search" placeholder="search">
+	
+										<button class="search-submit-btn" type="submit"><i aria-hidden="true" class="fas fa-search"></i></button>
+									</div>
+								</form>-->
+							</div>
+							<div class="col-sm-12 col-md-3">
+								<h4 class="text-white">
+									<strong>NAVIGATION</strong>
+								</h4>
+
+								<div class="links-footer">
+									 
+
+									{% set currentPath = path(app.request.attributes.get('_route'),
+                       app.request.attributes.get('_route_params')) %}
+
+					   					{% if currentPath == '/' %}
+										   <a href="/">Get connected with AFRK50</a><br>
+											<a href="{{ path('customer_reviews') }}">Our happy Users</a><br>
+											
+											<a href="#about-us">About us</a><br> 
+											
+
+											<a link="{{ path('our_solutions') }}"  href="#our-solutions"  >Our solutions</a><br>
+											<a href="#how-it-works">How it works</a><br>
+											<a link="{{ path('plans_pricing') }}" href="#pricing-section">Subscription</a><br>
+											<a link="{{ path('customer_reviews') }}" href="#how-it-helps">How it helps</a><br>
+											<a link="{{ path('our_partners') }}" href="#partners-sections">Partners</a><br>
+											<a href="#blog-section">Blog</a><br>
+											<a href="{{ path('app_siginup') }}">Register</a><br>  
+									   {% else %}
+
+									    <a href="/">Get connected with AFRK50</a><br>
+											<a href="{{ path('customer_reviews') }}">Our happy Users</a><br> 
+											<a href="/about">About us</a><br>  
+											<a href="{{ path('our_solutions') }}"    >Our solutions</a><br>
+
+
+											
+
+
+											      {% if app.user != null %} 
+
+														<a href="{{ path('plans_pricing') }}">How it works</a><br>
+
+														{% else %}
+															 
+
+														<a href="{{ path('profile_route') }}">How it works</a><br>
+
+												{% endif %}
+
+
+
+
+											<a href="{{ path('plans_pricing') }}" >Subscription</a><br>
+											<a href="{{ path('customer_reviews') }}"  >How it helps</a><br>
+											<a href="{{ path('our_partners') }}" >Partners</a><br>
+											<a href="#blog-section">Blog</a><br>
+											<a href="{{ path('app_siginup') }}">Register</a><br>  
+
+
+
+										   
+									   {% endif %}
+								</div>
+
+
+							</div>
+							<div class="col-sm-12 col-md-3">
+								<h4 class="text-white">
+									<strong>LEGAL</strong>
+								</h4>
+
+								<div class="links-footer">
+									<a href="{{ path('Imprint_route') }}">Imprint & Disclaimer</a><br>
+									<a href="{{ path('privacy_policy') }}">Privacy Policy</a><br>
+									<a href="{{ path('general_terms_and_conditions_route') }}">General Terms and Conditions</a><br>
+									 
+									<a href="{{ path('faq_route') }}">FAQs</a><br> 
+									
+								</div>
+
+
+							</div>
+							<div class="col-sm-12 col-md-3">
+								<h4 class="text-white">
+									<strong>CONTACT</strong>
+								</h4>
+
+
+								<div class="links-footer">
+									
+									<p class="text-white" style="font-size: 13px;" >Still questions? <br><a class="text-white" href="/contact">Contact us anytime</a> <br><a class="text-white" href="mailto:team@afrk50.com">team@afrk50.com</a></p><br> 
+
+
+								</div>
+
+								<div class="social-footer-linkes">
+									<div class="icon-df youtube">
+										<a target="blank" class="text-white" href="https://www.youtube.com/channel/UCMJQFe9OnAXG1KFJF9gJdHQ">
+											<i class="fab fa-youtube"></i>
+										</a>
+									</div>
+
+									<div class="icon-df facebook">
+										<a target="blank" class="text-white" href="https://www.facebook.com/teamafrk50/">
+											<i class="fab fa-facebook"></i>
+										</a>
+									</div>
+									<div class="icon-df instagram">
+										<a target="blank" class="text-white" href="https://www.instagram.com/afrk50team/">
+											<i class="fab fa-instagram"></i>
+										</a>
+									</div>
+									<div class="icon-df linkedin">
+										<a target="blank" class="text-white" href="https://www.linkedin.com/company/afrk50">
+											<i class="fab fa-linkedin"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="copyrights">
+					<p>copyright <span id="year"></span> AFRK50</p>
+				</div>
+			 
+		</body>
+	</html>
+</footer>{% endblock %}{% block javascripts %}
+<script src="{{ asset('/mamamia/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('/mamamia/aos-master/dist/aos.js') }}"></script>
+<script src="{{ asset('/mamamia/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('/mamamia/OwlCarousel2/dist/owl.carousel.min.js') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+
+<script src="{{ asset('/mamamia/star-rating-svg-master/src/jquery.star-rating-svg.js') }}"></script>
+
+
+
+    <script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
+ 
+
+ 
+
+<script defer src="/js/chat.js"></script>
+
+
+<script src="{{ asset('/js/main.js') }}"></script>
+
+
+
+
+{% endblock %}</body></html>

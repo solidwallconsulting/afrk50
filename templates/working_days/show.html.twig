@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WorkingDays{% endblock %}
+
+{% block body %}
+    <h1>WorkingDays</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ working_day.id }}</td>
+            </tr>
+            <tr>
+                <th>Day</th>
+                <td>{{ working_day.day }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('working_days_index') }}">back to list</a>
+
+    <a href="{{ path('working_days_edit', {'id': working_day.id}) }}">edit</a>
+
+    {{ include('working_days/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,1098 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AFRK50{% endblock %}
+
+
+{% block body %}
+  
+
+<style>
+.select2-container .select2-selection--single {
+    height: 58px !important;
+    margin-bottom: -26px !important;
+    padding-top: 10px !important;
+}
+</style>
+
+<header class="main-header">
+  <div class="overlay"></div> 
+  <div class="video-container">
+    <video autoplay muted loop poster="/img/afrk50-header-background.jpg">
+      <source src="/img/AFRK50-Intro.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+
+  {% if message != null %}
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed;
+    z-index: 10000000000;
+    top: 15px;
+    left: 15px;">
+      <div class="toast-header bg-success">
+        <img width="39px" src="/img/logo.png" class="rounded me-2" alt="...">
+        <strong class="me-auto text-white">AFRK50</strong>
+        <small class="text-white">just now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body text-success">
+        {{message}}
+      </div>
+    </div>
+  {% endif %}
+
+ 
+
+  {% if app.user != null %}
+  
+    {% if app.user.isLeagalEntity == false %}
+            {% if app.user.proInfo == null and app.user.jobSeekerInfo == null and app.user.studentInfo == null   %}
+    
+                <div class="toast missing-info-toast " role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed;
+                  z-index: 10000000000;
+                  top: 20px;
+                  left: 15px;">
+                  <div class="toast-header bg-warning">
+                    <img width="39px" src="/img/logo.png" class="rounded me-2" alt="...">
+                    <strong class="me-auto text-white">AFRK50</strong>
+                    <small class="text-white">just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                  </div>
+                  <div class="toast-body ">
+                    Please complete your account information. <a href="{{ path('profile_route') }}">edit now</a>
+                  </div>
+                </div>
+
+            {% endif %}
+    {% endif %}
+
+
+    
+
+  {% endif %}
+  
+
+    
+  
+
+
+  <div class="content">
+
+
+    
+
+
+
+    <nav class="navbar navbar-expand-lg main-navigation ">
+      <div class="container  ">
+        <a class="navbar-brand" href="#" data-aos="fade-right" data-aos-duration="500">
+          <img src="/img/afrk50-logo-white-03.png" class="main-logo" alt="">
+        </a>
+
+      </div>
+
+    </nav>
+
+
+
+    <div class="container">
+      <div class=" header-content">
+        <div class="title" data-aos="fade-up" data-aos-duration="500">GET CONNECTED</div>
+        <div class="sub-title" data-aos="fade-up" data-aos-duration="700">TO AFRICA’S<br>POTENTIAL</div>
+        <p class="intro" data-aos="fade-up" data-aos-duration="900">
+          AFRK50 is the first value adding digital Platform that brings together investors, <br>
+          entrepreneurs, universities, the African diaspora, European governments & <br>
+          Institutions, willing to connect to the infinite potential of the African Continent.
+
+        </p>
+
+        <div class="form-group main-search-engine-bloc">
+          <div class="left-arrow-piw"></div>
+          <div class="main-search-engine   nav-tabs" style="border-bottom:0 ;">
+            <div class="nav-item d-inline-block">
+              <a class="nav-link main-link active" tab-target="0" href="#"><i class="fas fa-home"></i> All</a>
+            </div>
+             
+
+
+            {% for item in listings %}
+              <div class="nav-item d-inline-block">
+                <a class="nav-link main-link " tab-target="{{loop.index}}">
+                  <i class="{{item.icon}}"></i>
+                  {{item.name}}
+                </a>
+              </div>
+            {% endfor %}
+            
+
+          </div>
+          <!--?listing-type=&search=ninjas&address=&order-by=1-->
+          <div class="card">
+            <div class="card-body tab-content tab-content-0 show">
+              <form method="GET" action="/explore">
+                <div class="row">
+                  <div class="col-sm-6 mb-4">
+                    <div class="form-group explore-filter wp-search-filter md-group ">
+                      
+                        <input type="text"  style="height:58px" class="form-control" placeholder="What are you looking for?" name="search"  >
+                      
+
+                    </div>
+
+                  </div>
+                  <div class="col-sm-6 mb-4">
+                    <div class="form-group">
+                      <button type="submit" class="buttons button-2 search btn btn-primary w-100" style="height: 58px;">
+                        <i class="fas fa-search"></i>
+                        Search </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+
+            {% for item in listings %}
+              <div class="card-body tab-content tab-content-{{loop.index}}">
+              <form method="GET"  action="/explore">
+                <input type="hidden" name="listing-type" value="{{item.id}}" />
+                <div class="row">
+                  <div class="col-sm-4 mb-3">
+                    <div class="form-group explore-filter wp-search-filter md-group">
+                      
+                        <input type="text" style="height:58px" class="form-control" placeholder="What are you looking for?" name="search"  >
+                      
+                       
+
+                    </div>
+
+                  </div>
+                  <div class="col-sm-4 mb-3" style="min-height:54px">
+                    <div class="form-group explore-filter wp-search-filter md-group">
+                       
+                        <select class="form-control select2 w-100" name="listing-categories">
+                           
+                          {% for c in item.categories %}
+                            <option value="{{c.id}}">{{c.name}}</option>
+                          {% endfor %}
+
+                          
+                        </select>
+                      
+
+                    </div>
+
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <button type="submit" class="buttons button-2 search btn btn-primary w-100" style="height: 58px;">
+                        <i class="fas fa-search"></i>
+                        Search </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            {% endfor %}
+
+
+            
+             
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="bloc-video" data-aos="fade-up"  data-aos-duration="1500">
+    <div class="player-box">
+      <div class="player">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/3yj9J1XqWMg"
+          title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="intro" data-aos="fade-up" data-aos-duration="500">
+      This is AFRICA where the biggest market place is being born to
+    </div>
+    <div class="main-title " data-aos="fade-up" data-aos-duration="900">
+      substantially impact the global economy
+    </div>
+  </div>
+
+
+
+
+</header>
+
+
+<div style="height: 460px; background-color: #f4f4f4"></div>
+
+<section class="bg-not-light  ">
+  <div class="elementor-shape elementor-shape-bottom" data-negative="false">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.5 27.8" preserveAspectRatio="none">
+      <path class="elementor-shape-fill"
+        d="M283.5,9.7c0,0-7.3,4.3-14,4.6c-6.8,0.3-12.6,0-20.9-1.5c-11.3-2-33.1-10.1-44.7-5.7	s-12.1,4.6-18,7.4c-6.6,3.2-20,9.6-36.6,9.3C131.6,23.5,99.5,7.2,86.3,8c-1.4,0.1-6.6,0.8-10.5,2c-3.8,1.2-9.4,3.8-17,4.7	c-3.2,0.4-8.3,1.1-14.2,0.9c-1.5-0.1-6.3-0.4-12-1.6c-5.7-1.2-11-3.1-15.8-3.7C6.5,9.2,0,10.8,0,10.8V0h283.5V9.7z M260.8,11.3	c-0.7-1-2-0.4-4.3-0.4c-2.3,0-6.1-1.2-5.8-1.1c0.3,0.1,3.1,1.5,6,1.9C259.7,12.2,261.4,12.3,260.8,11.3z M242.4,8.6	c0,0-2.4-0.2-5.6-0.9c-3.2-0.8-10.3-2.8-15.1-3.5c-8.2-1.1-15.8,0-15.1,0.1c0.8,0.1,9.6-0.6,17.6,1.1c3.3,0.7,9.3,2.2,12.4,2.7	C239.9,8.7,242.4,8.6,242.4,8.6z M185.2,8.5c1.7-0.7-13.3,4.7-18.5,6.1c-2.1,0.6-6.2,1.6-10,2c-3.9,0.4-8.9,0.4-8.8,0.5	c0,0.2,5.8,0.8,11.2,0c5.4-0.8,5.2-1.1,7.6-1.6C170.5,14.7,183.5,9.2,185.2,8.5z M199.1,6.9c0.2,0-0.8-0.4-4.8,1.1	c-4,1.5-6.7,3.5-6.9,3.7c-0.2,0.1,3.5-1.8,6.6-3C197,7.5,199,6.9,199.1,6.9z M283,6c-0.1,0.1-1.9,1.1-4.8,2.5s-6.9,2.8-6.7,2.7	c0.2,0,3.5-0.6,7.4-2.5C282.8,6.8,283.1,5.9,283,6z M31.3,11.6c0.1-0.2-1.9-0.2-4.5-1.2s-5.4-1.6-7.8-2C15,7.6,7.3,8.5,7.7,8.6	C8,8.7,15.9,8.3,20.2,9.3c2.2,0.5,2.4,0.5,5.7,1.6S31.2,11.9,31.3,11.6z M73,9.2c0.4-0.1,3.5-1.6,8.4-2.6c4.9-1.1,8.9-0.5,8.9-0.8	c0-0.3-1-0.9-6.2-0.3S72.6,9.3,73,9.2z M71.6,6.7C71.8,6.8,75,5.4,77.3,5c2.3-0.3,1.9-0.5,1.9-0.6c0-0.1-1.1-0.2-2.7,0.2	C74.8,5.1,71.4,6.6,71.6,6.7z M93.6,4.4c0.1,0.2,3.5,0.8,5.6,1.8c2.1,1,1.8,0.6,1.9,0.5c0.1-0.1-0.8-0.8-2.4-1.3	C97.1,4.8,93.5,4.2,93.6,4.4z M65.4,11.1c-0.1,0.3,0.3,0.5,1.9-0.2s2.6-1.3,2.2-1.2s-0.9,0.4-2.5,0.8C65.3,10.9,65.5,10.8,65.4,11.1	z M34.5,12.4c-0.2,0,2.1,0.8,3.3,0.9c1.2,0.1,2,0.1,2-0.2c0-0.3-0.1-0.5-1.6-0.4C36.6,12.8,34.7,12.4,34.5,12.4z M152.2,21.1	c-0.1,0.1-2.4-0.3-7.5-0.3c-5,0-13.6-2.4-17.2-3.5c-3.6-1.1,10,3.9,16.5,4.1C150.5,21.6,152.3,21,152.2,21.1z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M269.6,18c-0.1-0.1-4.6,0.3-7.2,0c-7.3-0.7-17-3.2-16.6-2.9c0.4,0.3,13.7,3.1,17,3.3	C267.7,18.8,269.7,18,269.6,18z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M227.4,9.8c-0.2-0.1-4.5-1-9.5-1.2c-5-0.2-12.7,0.6-12.3,0.5c0.3-0.1,5.9-1.8,13.3-1.2	S227.6,9.9,227.4,9.8z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M204.5,13.4c-0.1-0.1,2-1,3.2-1.1c1.2-0.1,2,0,2,0.3c0,0.3-0.1,0.5-1.6,0.4	C206.4,12.9,204.6,13.5,204.5,13.4z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M201,10.6c0-0.1-4.4,1.2-6.3,2.2c-1.9,0.9-6.2,3.1-6.1,3.1c0.1,0.1,4.2-1.6,6.3-2.6	S201,10.7,201,10.6z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M154.5,26.7c-0.1-0.1-4.6,0.3-7.2,0c-7.3-0.7-17-3.2-16.6-2.9c0.4,0.3,13.7,3.1,17,3.3	C152.6,27.5,154.6,26.8,154.5,26.7z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M41.9,19.3c0,0,1.2-0.3,2.9-0.1c1.7,0.2,5.8,0.9,8.2,0.7c4.2-0.4,7.4-2.7,7-2.6	c-0.4,0-4.3,2.2-8.6,1.9c-1.8-0.1-5.1-0.5-6.7-0.4S41.9,19.3,41.9,19.3z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M75.5,12.6c0.2,0.1,2-0.8,4.3-1.1c2.3-0.2,2.1-0.3,2.1-0.5c0-0.1-1.8-0.4-3.4,0	C76.9,11.5,75.3,12.5,75.5,12.6z">
+      </path>
+      <path class="elementor-shape-fill"
+        d="M15.6,13.2c0-0.1,4.3,0,6.7,0.5c2.4,0.5,5,1.9,5,2c0,0.1-2.7-0.8-5.1-1.4	C19.9,13.7,15.7,13.3,15.6,13.2z">
+      </path>
+    </svg>
+  </div>
+
+  <div class="container ">
+    <div class="row">
+      <div class="col-sm-12 ">
+        <div class=" ">
+          <p class="be-inspired m-0" data-aos="fade-down"  data-aos-duration="500"><strong>BE INSPIRED</strong></p>
+          <h2 class="get-inspired m-0">GET INSPIRED</h2>
+          <p class="some-random-p">Discover what your peers do, share your knowledge and market your business</p>
+
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!-- modals -->
+
+    {% for item in latestCompanny %}
+       <div class="modal fade business-modal-zoom" lat="{{item.lat}}" lng="{{item.lng}}" target-id="map-{{item.id}}" id="zoom-{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                         
+                            <div class="modal-body" style="    padding-top: 0;padding-bottom: 0;
+                            padding-left: 12px;padding-right: 12px;">
+                                <div class="row">
+                                    <div class=" col-sm-6" style="padding: 0;">
+                                        <div class="business-card" style="background-image: url({{ asset(item.coverImageURL) }});">
+                              
+                              
+    
+                              
+                                            {% if item.avgRating != null and  item.avgRating != 0 %}
+                                            <div class="starts">
+                                              <div class="solid-rating" rating="{{item.avgRating}}"></div>
+                                            </div>
+                                            {% endif %}
+                  
+                                            
+                        
+                                            <div class="info-bloc" company="{{item.id}}">
+                                                <div class="avatar" style="background-image: url({{ asset(item.logoURL) }});"></div>
+                                                <div class="name">{{item.name}}</div>
+                                                <div class="description text-muted">{{item.slogan}}</div>
+                                                <div class="location text-muted"><i class="fas fa-map-marker-alt"></i> {{item.address}}</div>
+                                            </div>
+                        
+                        
+                                        </div>
+                        
+    
+                                        <div class="  w-100">
+                                            <div class="  p-0 " >
+                                            <div class="business-card-zoom"  >
+                                                <div class="row div col-sm-12">
+                                                  
+                                                </div>
+                                                
+                                                <div class="row div col-sm-12">
+                                                    <div class="  company-card-details">
+                                                        <div class="card-body     mt-3">
+                                                            <div class="d-flex ">
+                                                                <i class="fas fa-bars side-icon"></i>  <h5 class="title-style-1">Description</h5> 
+                                                            </div>
+                                                            <div class="body">
+                                                                <p class="text-muted">{{item.description | raw}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="row div col-sm-12  mt-2">
+                                                    <div class="  company-card-details">
+                                                        <div class="card-body    ">
+                                                            <div class="d-flex mb-3">
+                                                                <i class="fas fa-th-large side-icon"></i>  <h5 class="title-style-1">Categories</h5> 
+                                                            </div>
+                                                            <div class="body">
+                                                                <div class="row">
+                                                                    
+                                                                    {% for cat in item.companyCategories %}
+                                                                        <div class="col-md-6 col-sm-6 mb-3">
+                                                                            <div class="company-social-media">
+                                                                                <a href="#">
+                                                                                    <i style="    color: #ffffff;
+                                    background: rgb(27 127 204 / 80%);" class="far fa-bookmark"></i> <span>{{cat.category.name}}</span>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endfor %}
+                                
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                            
+                            
+                                            </div>
+                            
+                            
+                                            </div>
+                                            <div class="card-footer card-footer border-0 bg-white">
+                                                <div class="d-flex d-flex justify-content-between">
+                                                    <div>
+                                                    <div class="circle-green">
+                                                        <i class="far fa-bookmark"></i>
+                                                    </div>
+                                                    <div class="card-type">
+                                                        {{item.listing}}
+                                                    </div>
+                                
+                                                    </div>
+                                
+                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-6" style="padding: 0;"  >
+                                            
+                                        <div class="init-hidden-map" lat="{{item.lat}}" lng="{{item.lng}}">
+                                            <div class="map" id="map-{{item.id}}" ></div>
+                                        </div>
+    
+    
+    
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                         
+                        </div>
+                    </div> 
+</div>  
+    {% endfor %}
+
+    <div class="business-cards-list owl-carousel owl-carousel-start">
+
+
+
+
+
+
+      {% for item in latestCompanny %}
+         
+                    <div class="card  w-100">
+                      <div class="card-body p-0 " >
+                      <div class="business-card" style="background-image: url({{ asset(item.coverImageURL) }});">
+                          
+                          
+
+                          
+                          {% if item.avgRating != null and  item.avgRating != 0 %}
+                          <div class="starts">
+                            <div class="solid-rating" rating="{{item.avgRating}}"></div>
+                          </div>
+                          {% endif %}
+
+                          
+      
+                          <div class="info-bloc" company="{{item.id}}">
+                          <div class="avatar" style="background-image: url({{ asset(item.logoURL) }});"></div>
+                          <div class="name">{{item.name}}</div>
+                          <div class="description text-muted">{{item.slogan}}</div>
+                          <div class="location text-muted"><i class="fas fa-map-marker-alt"></i> {{item.address}}</div>
+                          </div>
+      
+      
+                      </div>
+      
+      
+                      </div>
+                      <div class="card-footer card-footer border-0 bg-white">
+                      <div class="d-flex d-flex justify-content-between">
+                          <div>
+                          <div class="circle-green" style="background-color:{{item.listing.color}}">
+                              <i class="{{item.listing.icon}}"></i>
+                          </div>
+                          <div class="card-type">
+                              {{item.listing}}
+                          </div>
+      
+                          </div>
+      
+                          <div>
+                          <div class="circle-grey">
+                              <i class="fas fa-search-plus"  data-bs-toggle="modal" data-bs-target="#zoom-{{item.id}}"></i>
+                          </div>
+                          {% if app.user != null %}
+                          <div class="circle-grey">
+                              <i class="far fa-heart book-mark-add" target="{{ item.id }}"></i>
+                          </div>
+                          {% endif %}
+                          
+                          </div>
+      
+      
+                      </div>
+                      </div>
+                  </div> 
+ 
+      {% endfor %}
+       
+
+    </div>
+
+    <div class="row section-padding" id="about-us">
+      <div class="col-sm-12 col-md-6 mb-3" data-aos="fade-right"  data-aos-duration="800">
+        <h2 class="this-is-afc">
+          THIS IS<br>AFRK50
+        </h2>
+
+        <div class="custom-ps">
+          <p>Our vision is to create a valuable digital ecosystem interconnecting all stakeholders and users taking
+            part in Africa’s potential unveiling. Generating economic opportunities and contributing to jobs creation
+            is our driving purpose.</p>
+          <p>Our mission is to disrupt the current approach of sustainable growth in Africa.</p>
+        </div>
+        <div class="form-group">
+          <a class="btn btn-primary read-more-btn" href="{{ path('about_route') }}">
+            READ MORE
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6" data-aos="fade-left"  data-aos-duration="800">
+        <iframe width="100%" height="324" src="https://www.youtube.com/embed/ttyd2QXsakc" title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+
+        <p class="text-center mt-3">Meet the founders of AFRK50</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="our-solutions" id="our-solutions">
+  <div class="container">
+    <div class="widget-bloc">
+      <h2 class="our-solution-h2 " data-aos="fade-up"  data-aos-duration="800">OUR SOLUTIONS</h2>
+    </div>
+    <div class="widget-bloc">
+      <p class="text-white"><span style="font-weight: 400;">Are you an entrepreneur living outside from Africa and
+          willing to launch, grow and scale your business on the African Continent or are you an African entrepreneur
+          aiming to get more visibity outside from Africa?&nbsp;</span></p>
+
+    </div>
+
+    <div class="widget-bloc">
+      <ul class="our-solutions-list" data-aos="fade-up"  data-aos-duration="800">
+        <li class="elementor-icon-list-item">
+          <span class="elementor-icon-list-icon">
+            <i aria-hidden="true" class="fas fa-check"></i> </span>
+          <span class="elementor-icon-list-text">We match you with your target market</span>
+        </li>
+        <li class="elementor-icon-list-item">
+          <span class="elementor-icon-list-icon">
+            <i aria-hidden="true" class="fas fa-check"></i> </span>
+          <span class="elementor-icon-list-text">We take care of your marketing</span>
+        </li>
+        <li class="elementor-icon-list-item">
+          <span class="elementor-icon-list-icon">
+            <i aria-hidden="true" class="fas fa-check"></i> </span>
+          <span class="elementor-icon-list-text">We connect you with the right investors and partners</span>
+        </li>
+        <li class="elementor-icon-list-item">
+          <span class="elementor-icon-list-icon">
+            <i aria-hidden="true" class="fas fa-check"></i> </span>
+          <span class="elementor-icon-list-text">We accompany you to safely expand in Africa through our
+            network</span>
+        </li>
+      </ul>
+
+    </div>
+    <div class="widget-bloc">
+      <div class="form-group">
+        <a class="btn btn-primary read-more-btn-white" href="{{ path('our_solutions') }}">
+          READ MORE
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="widget-bloc">
+      <h2 class="how-it-works-h2">HOW IT WORKS</h2>
+    </div>
+    <div class="widget-bloc w-540"  
+      <p class="dump-muted-p">
+        <span style="font-weight: 400;" data-aos="fade-up"  data-aos-duration="800">
+          In just 3 steps become member of that great ECOSYSTEM that keeps growing every single day, expanding with
+          the most amazing professionals and compagnies
+        </span>
+      </p>
+
+    </div>
+
+    <div class="widget-bloc">
+      <div class="card">
+        <div class="card-body steps-body">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="text-center">
+                <img class="step-img" src="/img/Step-One.png" alt="">
+                <p class="step-title">STEP ONE</p>
+                <p class="dump-muted-p step-description">Create your Profile on AFRK50</p>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="text-center">
+                <img class="step-img" src="/img/Step-Two.png" alt="">
+                <p class="step-title">STEP TWO</p>
+                <p class="dump-muted-p step-description">Market yourself and your business in our amazing community
+                </p>
+              </div>
+
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="text-center">
+                <img class="step-img" src="/img/step-three.png" alt="">
+                <p class="step-title">STEP THREE</p>
+                <p class="dump-muted-p step-description">Start impacting people’s lives and create structural change
+                  on the African Continent</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      {% if app.user != null %}
+               <a class="btn btn-primary read-more-btn" href="{{ path('plans_pricing') }}">
+                SUBSCRIBE TODAY
+              </a>
+
+              {% else %}
+                <a class="btn btn-primary read-more-btn" href="{{ path('profile_route') }}">
+                SUBSCRIBE TODAY
+              </a>
+
+      {% endif %}
+
+      
+      
+    </div>
+
+
+  </div>
+</section>
+
+
+
+<section class="lets-work-together" id="pricing-section">
+  <div class="container">
+    <div class="widget-bloc text-center">
+      <div class="lets-w-top">Let’s work together!</div>
+      <h2 class="how-it-works-h2">SUBSCRIPTION</h2>
+    </div>
+
+    <div class="widget-bloc">
+
+
+
+
+
+<div class="card-deck mb-3 text-center">
+
+
+
+  <!--<div class="text-center mb-3">
+    <label for="">
+      <strong>monthly</strong>
+    </label>
+
+    <div class="switch-btn">
+      <div class="toogle"></div>
+    </div>
+
+    <label for=""><strong>yearly</strong></label>
+  </div>-->
+
+
+  <div class="pack-row pack-basic">
+    <div class="row d-flex justify-content-center">
+
+
+
+      <div class="col-sm-4">
+        <div class="card mb-4 box-shadow"> 
+          <div class="card-body">
+            <div class="w-100" style="
+            background-image: url(https://afrk50.com/wp-content/uploads/2021/04/professional-training-1024x683.jpg);
+            background-position: center;
+            background-size: cover;
+            height: 200px;
+            ">
+
+            </div>
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">Basic</div>
+
+
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family: Montserrat, Sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            ">From</div>
+            
+            <h1 class="card-title pricing-card-title" style="    text-align: center;
+            color: #303030;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">{{ 19.99 | format_currency('EUR') }}  MONTHLY</h1>
+            <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+              <li><!--<i class="fas fa-check"></i> Market your Service or Product  (1 listings for Basic and 3 listing for Premium) --></li>
+              <!--<li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+              <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+              <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+              <li><i class="fas fa-times"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+              <li><i class="fas fa-times"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+              <li><i class="fas fa-times"></i> 1 h Career Boosting Consultation</li>-->
+              
+              
+            </ul>
+            <!--<a href="{{ path('membership_checkout_route',{id:1}) }}" class="btn btn-primary">order now</a>-->
+
+            <a style="padding: 15px; font-weight: BOLD;" href="/plans-pricing" class="btn btn-primary w-100">SEE PLAN</a>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <!--******************-->
+
+ 
+          <div class="col-sm-4">
+            <div class="card mb-4 box-shadow"> 
+              <div class="card-body">
+                <div class="w-100" style="
+                background-image: url(https://afrk50.com/wp-content/uploads/2021/06/plans-pricing-header-bg-1024x499.jpg);
+                background-position: center;
+                background-size: cover;
+                height: 200px;
+                ">
+    
+                </div>
+                <div style="text-align: center;
+                color: #68A0B1;
+                font-family:  Montserrat , Sans-serif;
+                font-size: 25px;
+                font-weight: 600;
+                letter-spacing: 1.5px;">Premium</div>
+    
+    
+                <div style="text-align: center;
+                color: #68A0B1;
+                font-family: Montserrat, Sans-serif;
+                font-weight: 600;
+                margin-bottom: 20px;
+                ">From</div>
+                
+                <h1 class="card-title pricing-card-title" style="    text-align: center;
+                color: #303030;
+                font-family:  Montserrat , Sans-serif;
+                font-size: 21px;
+                font-weight: 600;
+                letter-spacing: 1.5px;">{{ 29.99 | format_currency('EUR') }}  MONTHLY</h1>
+                <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+                  <li><!--<i class="fas fa-check"></i> Market your Service or Product  (1 listings for Basic and 3 listing for Premium) --></li>
+                  <!--<li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+                  <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+                  <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+                  <li><i class="fas fa-times"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+                  <li><i class="fas fa-times"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+                  <li><i class="fas fa-times"></i> 1 h Career Boosting Consultation</li>-->
+
+ 
+
+                  
+                  
+                </ul>
+                <!--<a href="{{ path('membership_checkout_route',{id:2}) }}" class="btn btn-primary">order now</a>-->
+    
+                <a style="padding: 15px; font-weight: BOLD;" href="/plans-pricing" class="btn btn-primary w-100">SEE PLAN</a>
+    
+              </div>
+            </div>
+          </div>
+
+           
+ 
+    </div>
+
+  </div>
+
+
+  <div class="pack-row pack-yearly d-none">
+    <div class="row d-flex justify-content-center">
+ 
+      <div class="col-sm-4">
+        <div class="card mb-4 box-shadow"> 
+          <div class="card-body">
+            <div class="w-100" style="
+            background-image: url(https://afrk50.com/wp-content/uploads/2021/04/professional-training-1024x683.jpg);
+            background-position: center;
+            background-size: cover;
+            height: 200px;
+            ">
+
+            </div>
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">Basic</div>
+
+
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family: Montserrat, Sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            ">From</div>
+            
+            <h1 class="card-title pricing-card-title" style="    text-align: center;
+            color: #303030;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">{{ 29.99 | format_currency('EUR') }}  MONTHLY</h1>
+            <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+              <li><!--<i class="fas fa-check"></i> Market your Service or Product  (1 listings for Basic and 3 listing for Premium) --></li>
+              <!--<li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+              <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+              <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+              <li><i class="fas fa-times"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+              <li><i class="fas fa-times"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+              <li><i class="fas fa-times"></i> 1 h Career Boosting Consultation</li>-->
+
+
+
+              
+              
+            </ul>
+            <!--<a href="{{ path('membership_checkout_route',{id:2}) }}" class="btn btn-primary">order now</a>-->
+
+            <a style="padding: 15px; font-weight: BOLD;" href="/plans-pricing" class="btn btn-primary w-100">SEE PLAN</a>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <div class="col-sm-4">
+        <div class="card mb-4 box-shadow"> 
+          <div class="card-body">
+            <div class="w-100" style="
+            background-image: url(https://afrk50.com/wp-content/uploads/2021/06/plans-pricing-header-bg-1024x499.jpg);
+            background-position: center;
+            background-size: cover;
+            height: 200px;
+            ">
+
+            </div>
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 25px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">Premium</div>
+
+
+            <div style="text-align: center;
+            color: #68A0B1;
+            font-family: Montserrat, Sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            ">From</div>
+            
+            <h1 class="card-title pricing-card-title" style="    text-align: center;
+            color: #303030;
+            font-family:  Montserrat , Sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 1.5px;">{{ 24.99 | format_currency('EUR') }}  MONTHLY</h1>
+            <ul class="list-unstyled mt-3 mb-4 pricing-list-items">
+              <li><!--<i class="fas fa-check"></i> Market your Service or Product  (1 listings for Basic and 3 listing for Premium) --></li>
+              <!--<li><i class="fas fa-check"></i> Post an Article on the AFRK50 Blog</li>
+              <li><i class="fas fa-check"></i> Share your social media links in your profile</li>
+              <li><i class="fas fa-check"></i> Share one corporate Video in the profile</li>
+              <li><i class="fas fa-times"></i> Promote one Listing of your choice for 1 week/month on the AFRK50 Platform</li>
+              <li><i class="fas fa-times"></i> Present one official introduction of your company in AFRK50´s Social Medias</li>
+              <li><i class="fas fa-times"></i> 1 h Career Boosting Consultation</li>-->
+
+
+
+              
+              
+            </ul>
+            <!--<a href="{{ path('membership_checkout_route',{id:2}) }}" class="btn btn-primary">order now</a>-->
+
+            <a style="padding: 15px; font-weight: BOLD;" href="/plans-pricing" class="btn btn-primary w-100">SEE PLAN</a>
+
+          </div>
+        </div>
+      </div>
+
+
+  
+    </div>
+
+  </div>
+    
+ 
+
+
+  </div>
+</section>
+
+
+
+
+<section class="bg-white how-it-helps" id="how-it-helps">
+  <div class="container">
+    <div class="widget-bloc">
+      <h2 class="how-it-works-h2">HOW IT HELPS</h2>
+    </div>
+
+
+
+    <div class="list-of-testimonials owl-carousel owl-carousel-start">
+
+      {% for item in how_it_helps %}
+        <div class="bloc-testi">
+        <div class="header d-flex">
+          <div class="avatar">
+            <img src="{{ item.user.photoURL }}" alt="">
+          </div>
+          <div>
+            <strong>{{ item.user.firstname }} {{ item.user.lastname }}</strong>
+            <p class="text-muted">Founder of {% if item.user.companies | length != 0 %}{{ item.user.companies[0].name }}{% endif %}
+            </p>
+          </div>
+        </div>
+        <div class="bloc-testi-content">
+          {{ item.video | raw }}
+
+          <p class="text-muted">
+
+            {{ item.descreption }}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+      
+
+    </div>
+
+    <div class="  text-center mt-5">
+      <a href="{{ path('customer_reviews') }}" class="btn btn-primary read-more-btn">
+        MORE TESTIMONIALS
+      </a>
+    </div>
+
+
+    <div class="widget-bloc" style="margin-top: 100px;" id="partners-sections">
+      <div class="lets-w-top">Meet our amazing</div>
+      <h2 class="how-it-works-h2">PARTNERS</h2>
+      <p>Interested to partner with us? </p>
+
+      <a class="btn btn-sm btn-primary read-more-btn" href="{{ path('tell_us_more_route') }}">
+        TELL US MORE
+      </a>
+
+    </div>
+
+
+    <div class="list-of-partners owl-carousel owl-carousel-partners">
+     
+
+      {% for item in partners %}
+         <div class="partner">
+        <img src="{{item.logoURL}}" alt="">
+      </div>
+      {% endfor %}
+     
+
+
+    </div>
+
+
+
+  </div>
+</section>
+
+
+<section class="blog" id="blog-section">
+
+  <div class="intro-blog">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="some-text">
+            Newsletter
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-4">
+          <div class="some-p text-white">
+            Stay tuned with our Newsletter! We are happy to keep you updated about ongoing actions, new members and
+            lots of amazing stuff for your Inbox!
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <button class="btn  btn-primary signup-btn-white w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            SIGN UP
+          </button>
+ 
+          <!-- Modal -->
+          <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="    width: 727px !important;
+    max-width: unset !important; ">
+
+
+  
+
+
+              <div class="modal-content news-modal-size newsletter-modal-bg">
+                 
+
+              {{ form_start(nform) }}
+                 <div class="modal-body " >
+
+                     
+ 
+                        <h2 class="news-letter-title">Newsletter</h2>
+                    
+                      
+                        
+                            {{ form_widget(nform.name) }}
+
+
+  
+                            {{ form_widget(nform.email) }}
+
+
+
+
+                         <button  type="submit" class="btn btn-primary w-100">SIGN IN</button>
+                           
+                    </div>
+                
+              {{ form_end(nform) }}
+
+   <button type="button" style="    position: absolute;
+    top: 0;font-size: 23px;
+    right: 0;" class="close-news-btn-modal" data-bs-dismiss="modal" aria-label="Close">
+      <i class="fas fa-times text-white"></i>
+    </button>
+
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="main-blog-content">
+    <div class="content-blog text-center">
+      <div class="pre" data-aos="fade-up"  data-aos-duration="800">JOIN US ON</div>
+      <div class="main" data-aos="fade-down"  data-aos-duration="800">SOCIAL MEDIA</div>
+      <div class="social-icons-bloc">
+        <div class="youtube" >
+          
+          <a target="blank" class="text-white" href="https://www.youtube.com/channel/UCMJQFe9OnAXG1KFJF9gJdHQ"><i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="facebook">
+          
+          <a target="blank" class="text-white" href="https://www.facebook.com/teamafrk50/"><i class="fab fa-facebook"></i></a>
+        </div>
+        <div class="instagram">
+          
+          <a target="blank" class="text-white" href="https://www.instagram.com/afrk50team/"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="linkedin">
+          
+          <a target="blank" class="text-white" href="https://www.linkedin.com/company/afrk50"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+ 
+{% endblock %}
+

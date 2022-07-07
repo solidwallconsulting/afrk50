@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProInfo{% endblock %}
+
+{% block body %}
+    <h1>ProInfo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pro_info.id }}</td>
+            </tr>
+            <tr>
+                <th>AreasOfExperience</th>
+                <td>{{ pro_info.areasOfExperience }}</td>
+            </tr>
+            <tr>
+                <th>YearsOfExperience</th>
+                <td>{{ pro_info.yearsOfExperience }}</td>
+            </tr>
+            <tr>
+                <th>AreasOfIntrests</th>
+                <td>{{ pro_info.areasOfIntrests ? pro_info.areasOfIntrests|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ResumeFILE</th>
+                <td>{{ pro_info.resumeFILE }}</td>
+            </tr>
+            <tr>
+                <th>MoreInfo</th>
+                <td>{{ pro_info.moreInfo }}</td>
+            </tr>
+            <tr>
+                <th>SocialLink</th>
+                <td>{{ pro_info.socialLink }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('pro_info_index') }}">back to list</a>
+
+    <a href="{{ path('pro_info_edit', {'id': pro_info.id}) }}">edit</a>
+
+    {{ include('pro_info/_delete_form.html.twig') }}
+{% endblock %}

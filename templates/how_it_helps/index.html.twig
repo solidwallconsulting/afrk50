@@ -1,0 +1,74 @@
+ 
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+
+	<main class="main-content">
+		{% block topNav %}
+			{{ parent() }}
+		{% endblock %}
+
+		<div class="conatiner-fluid content-inner mt-n5 py-0">
+			<div class="row">
+
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header d-flex justify-content-between flex-wrap">
+							<div class="header-title">
+								<h4 class="card-title">How it helps</h4>
+
+
+                                
+							</div>
+
+ <a class="btn btn-primary btn-sm" href="{{ path('how_it_helps_new') }}">Add</a>
+  
+
+
+                            
+
+						</div>
+						<div class="card-body w-100">
+
+                      
+
+
+                               <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Video</th>
+                                            <th>User</th>
+                                            <th>actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for how_it_help in how_it_helps %}
+                                        <tr>
+                                            <td>{{ how_it_help.id }}</td>
+                                            <td>{{ how_it_help.video | raw }}</td>
+                                            <td>{{ how_it_help.user }}</td>
+                                            <td> 
+                                                <a href="{{ path('how_it_helps_edit', {'id': how_it_help.id}) }}">edit</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+							 
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block title %}ListingReports{% endblock %}
+
+{% block body %}
+
+
+
+
+<main class="main-content">
+    {% block topNav %}
+    {{ parent() }}
+    {% endblock %}
+
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between flex-wrap">
+                        <div class="header-title">
+                            <h4 class="card-title">Reports</h4>
+                        </div>
+
+
+
+                    </div>
+                    <div class="card-body w-100">
+
+
+
+                        <p>
+                            <strong>{{ listing_report.reporter.firstname }}
+                                {{ listing_report.reporter.lastname }}</strong>
+                        </p>
+
+                        <p>
+                            <strong> 
+                                {{ listing_report.category.title }}</strong>
+                        </p>
+
+
+
+                        <p>{{ listing_report.content }}</p>
+
+                        <small class="text-muted">
+                            {{ listing_report.reportDate ? listing_report.reportDate|date('Y-m-d H:i:s') : '' }}
+                        </small>
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+                <hr>
+    
+
+                    {{ include('listing_reports/_delete_form.html.twig') }}
+                                         
+                 
+
+
+            </div>
+
+
+
+
+            {% endblock %}

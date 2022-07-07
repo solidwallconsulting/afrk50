@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}AFRK50 | Checkout{% endblock %}
+
+{% block body %}
+
+
+{% if app.user.isBlocked == false %}
+
+
+<div id="content" class="section-padding">
+    <div data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+
+                <div class="row"> 
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    In order to continue please choose one of the following payment methods.
+                                </p>
+                                <button class="back-btn btn-secondary btn-sm">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="paypal-button-container"></div>
+                            </div>
+                        </div>
+                        
+
+
+
+                         
+                        
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% else %}
+
+<div id="content" class="section-padding">
+    <div data-aos="fade-up" class="row">
+        <div class="col-sm-12 col-md-7 m-auto">
+            <div class="container">
+                <div class="alert alert-danger">
+                    You account has been blocked by AFRK50 support team.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+
+
+{% endif %}
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+
+
+
+
+
+
+<script  src="https://www.paypal.com/sdk/js?client-id=AUyTMyoh7V4HJclHvd92dwc31dpChVtoL3312h-1SDavXeraZyAkuPL6vC4yYO4P7F9rK2ThcDtjex3b&currency=EUR&vault=true"
+    data-namespace="paypal_sdk"  ></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        paypal_sdk.Buttons({
+          
+        createSubscription: function(data, actions) {
+          return actions.subscription.create({
+            'plan_id': 'P-1D795338961250812MIQKI5Y' // Creates the subscription
+          });
+        },
+        onApprove: function(data, actions) {
+          alert('You have successfully created subscription ' + data.subscriptionID); // Optional message given to subscriber
+        }
+      }).render('#paypal-button-container');
+
+    })
+</script>
+
+
+ 
+
+
+
+ 
+
+{% endblock %}
